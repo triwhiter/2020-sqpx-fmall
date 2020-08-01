@@ -46,6 +46,10 @@ public class Result {
         this.data = data;
     }
 
+    public Result(String msg) {
+        this.msg = msg;
+    }
+
     /**
      * 值返回数据，消息使用默认值
      * @param data
