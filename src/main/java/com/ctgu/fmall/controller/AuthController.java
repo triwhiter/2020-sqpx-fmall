@@ -35,7 +35,7 @@ public class AuthController {
         .eq("password",authDTO.getPassword());
         User user=userMapper.selectOne(wrapper);
         if(user==null){
-            return ResultUtil.success(ResultEnum.LOGIN_FAILED);
+            return ResultUtil.error(ResultEnum.LOGIN_FAILED);
         }
         log.info("请求登录");
         return ResultUtil.success("登录成功",user);
