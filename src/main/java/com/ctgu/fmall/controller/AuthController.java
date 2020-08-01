@@ -26,4 +26,6 @@ public class AuthController {
     @PostMapping("/register")
     public Result register(){
         return ResultFactory.buildSuccessResult("注册成功");
-    
+    }
+
+}
