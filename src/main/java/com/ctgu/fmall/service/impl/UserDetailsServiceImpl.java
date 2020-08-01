@@ -1,0 +1,49 @@
+package com.ctgu.fmall.service.impl;
+
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ctgu.fmall.mapper.AdminMapper;
+import com.ctgu.fmall.mapper.UserMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+@Service
+@Slf4j
+public class UserDetailsServiceImpl implements UserDetailsService {
+    @Autowired
+    UserMapper userMapper;
+
+    @Autowired
+    AdminMapper adminMapper;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        QueryWrapper<com.ctgu.fmall.entity.User> wrapper = new QueryWrapper<>();
+        wrapper.eq("nick_name",username);
+        com.ctgu.fmall.entity.User dbUser=userMapper.selectOne(wrapper);
+        if(dbUser == null){
+            return null;
+        }else{
+            Collection<GrantedAuthority> authorities = new ArrayList<>();         
+            authorities.add(new SimpleGrantedAuthority("USER"));
+            User user = new User(dbUser.getEmail(),passwordEncoder.encode(dbUser.getPassword()),authorities);
+            System.out.println("管理员信息："+user.getUsername()+"   "+passwordEncoder.encode(dbUser.getPassword())+"  "+user.getAuthorities());
+            return user;
+        }
+    }
+}

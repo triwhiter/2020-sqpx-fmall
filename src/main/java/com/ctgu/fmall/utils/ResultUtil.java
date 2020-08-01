@@ -51,6 +51,11 @@ public class ResultUtil {
         return result;
     }
 
+    /**
+     * 返回错误提示信息
+     * @param msg
+     * @return
+     */
     public static Result error(String msg) {
         Result result = new Result();
         result.setMsg(msg);
