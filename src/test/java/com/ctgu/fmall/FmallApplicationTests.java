@@ -21,7 +21,8 @@ public class FmallApplicationTests {
 
     @Test
     public void contextLoads() {
-        log.warn(passwordEncoder.encode("123123"));
+        log.warn(passwordEncoder.encode("123456"));
+
         log.warn(String.valueOf(passwordEncoder.matches("123123","$2a$10$BDUurvvxhAdeDtlRaoXqyeZAequCsXNDX1hvHfNdnw5kasdI7OQp.")));
     }
 

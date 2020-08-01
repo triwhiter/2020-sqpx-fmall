@@ -28,7 +28,8 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
 
-        if (request.getContentType().equals(MediaType.APPLICATION_JSON_VALUE)) {
+        System.out.println(request.getContentType());
+        if (request.getContentType().equals("application/json;charset=UTF-8")) {
             // 说明用户以 JSON 的形式传递的参数
             String username = null;
             String password = null;

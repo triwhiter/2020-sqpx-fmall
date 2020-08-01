@@ -13,18 +13,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
 
+@Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Slf4j
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -37,25 +45,66 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setMaxAge((long) 3600);
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
 /*    @Autowired
     MyAuthenticationProvider myAuthenticationProvider;*/
+
 
     //    认证策略
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        //开启跨域
+/*        http.cors();
+
+        // 开启自动配置的登录功能，如果没有权限，就会跳到登录页面！
+        http.csrf().disable();*/
+        http.authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .permitAll()
+                .and()
+                .httpBasic()
+                .and()
+                .cors()
+                .configurationSource(corsConfigurationSource())
+                .and().csrf().disable();
+
+        http.formLogin()
+                .loginProcessingUrl("/api/login")
+                .loginPage("/login");
+
         http.authorizeRequests()
 //                .mvcMatchers("/api/*").hasRole("ADMIN")
 //                .mvcMatchers("/api/user/*").access("hasRole('ADMIN')")
                 .mvcMatchers("/user/**").hasRole("USER")
+                .mvcMatchers("/api/**").permitAll().anyRequest().authenticated()
                 .anyRequest().permitAll();
 //                .authenticated();
 
-        // 开启自动配置的登录功能，如果没有权限，就会跳到登录页面！
-        http.formLogin()
-                .loginProcessingUrl("/api/login")
-                .loginPage("/login");
 
         //退出时返回Json数据
         http.logout()
@@ -87,17 +136,11 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
        /*
         //拦截器
         log.warn("是否有权限：" + http.authorizeRequests().anyRequest().hasAuthority("ADMIN"));*/
-        // 防止跨站脚本攻击
-        http.csrf().disable();
         // 开启记住我功能
         http.rememberMe();
+
     }
 
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     MyUsernamePasswordAuthenticationFilter myAuthenticationFilter() throws Exception {
@@ -149,7 +192,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         /*使用自定义的UserDetailesService*/
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 
         /*使用自定义的authenticationProvider认证逻辑*/
 //        auth.authenticationProvider(myAuthenticationProvider);;
@@ -172,7 +215,10 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 "/configuration/security",
                 "/swagger-ui.html/**",
                 "/webjars/**");
-    }
+
+    web.ignoring()
+            .antMatchers("/css/**","/js/**","/index.html","/img/**","/fonts/**","/favicon.ico","/verifyCode");
+}
 
 
 }
