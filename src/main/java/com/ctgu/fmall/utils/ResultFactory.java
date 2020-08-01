@@ -31,6 +31,16 @@ public class ResultFactory {
     }
 
     /**
+     * 请求成功，返回数据，消息和状态码使用默认值
+     * @param msg
+     * @return
+     */
+    public static Result buildSuccessResult(String msg) {
+        Result result = new Result(msg);
+        return result;
+    }
+
+    /**
      * 返回失败的提示信息
      * @param resultEnum
      * @return
