@@ -21,6 +21,11 @@ public class ResultUtil {
         return result;
     }
 
+    public static Result success() {
+        Result result = new Result();
+        return result;
+    }
+
     /**
      * 请求成功，返回数据，消息和状态码使用默认值
      * @param data

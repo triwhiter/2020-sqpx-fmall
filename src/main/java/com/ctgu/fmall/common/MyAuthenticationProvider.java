@@ -1,9 +1,6 @@
 package com.ctgu.fmall.common;
 
 import com.ctgu.fmall.service.impl.UserDetailsServiceImpl;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,12 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
-@Component
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+//@Component
 public class MyAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired

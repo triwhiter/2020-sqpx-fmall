@@ -13,6 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * @Auther: yanghao
+ * @Date: 2020/8/1 19:00
+ * @PackageName:com.ctgu.fmall.common
+ * @Description: 自定义认证逻辑，实现Json登录
+ * @Version:V1.0
+ */
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     // 覆盖父类的方法，增加 JSON 的登录方式
     @Override
