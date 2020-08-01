@@ -8,23 +8,37 @@ import com.ctgu.fmall.vo.Result;
  */
 public class ResultFactory {
 
+
+    /**
+     * 请求成功，返回自定义消息和数据
+     * @param data
+     * @param message
+     * @return
+     */
     public static Result buildSuccessResult(Object data,String message) {
-        return buildResult(ResultCode.SUCCESS, message, data);
+        Result result = new Result(message,data);
+        return result;
     }
 
+    /**
+     * 请求成功，返回数据，消息和状态码使用默认值
+     * @param data
+     * @return
+     */
     public static Result buildSuccessResult(Object data) {
-        return buildResult(ResultCode.SUCCESS, "成功", data);
+        Result result = new Result(data);
+        return result;
     }
 
-    public static Result buildFailResult(String message) {
-        return buildResult(ResultCode.FAIL, message, null);
+    /**
+     * 返回失败的提示信息
+     * @param resultEnum
+     * @return
+     */
+    public static Result buildFailResult(ResultEnum resultEnum) {
+        Result result = new Result(resultEnum);
+        return result;
     }
 
-    public static Result buildResult(ResultCode resultCode, String message, Object data) {
-        return buildResult(resultCode.code, message, data);
-    }
-
-    public static Result buildResult(int resultCode, String message, Object data) {
-        return new Result(resultCode, message, data);
-    }
+    
 }

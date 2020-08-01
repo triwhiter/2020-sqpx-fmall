@@ -22,7 +22,7 @@ import java.util.List;
  */
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
-@RequestMapping("/fmall/comment")
+@RequestMapping("/comment")
 public class CommentController {
 
     @Autowired

@@ -1,6 +1,6 @@
 package com.ctgu.fmall;
 
-import com.ctgu.fmall.utils.ResultCode;
+import com.ctgu.fmall.utils.ResultEnum;
 
 /**
  * @Author: xuzhen
@@ -10,6 +10,6 @@ import com.ctgu.fmall.utils.ResultCode;
  */
 public class test {
     public static void main(String[] args) {
-        System.out.println(ResultCode.SUCCESS.code);
+        System.out.println(ResultEnum.SUCCESS.code);
     }
 }

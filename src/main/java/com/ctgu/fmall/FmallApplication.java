@@ -11,7 +11,7 @@ public class FmallApplication {
     public static void main(String[] args) {
         SpringApplication.run(FmallApplication.class, args);
 
-        System.out.println("http://localhost:8088/swagger-ui.html");
+        System.out.println("http://localhost:8088/api/swagger-ui.html");
     }
 
 }
