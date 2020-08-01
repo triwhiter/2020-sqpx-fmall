@@ -18,8 +18,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthDTO {
-    @NotNull
+    @NotNull(message ="用户名不能为空")
     private String username;
-    @NotNull
+    @NotNull(message ="密码不能为空")
     private String password;
 }
