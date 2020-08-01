@@ -21,6 +21,11 @@ public class ResultUtil {
         return result;
     }
 
+    public static Result success() {
+        Result result = new Result();
+        return result;
+    }
+
     /**
      * 请求成功，返回数据，消息和状态码使用默认值
      * @param data
@@ -51,6 +56,11 @@ public class ResultUtil {
         return result;
     }
 
+    /**
+     * 返回错误提示信息
+     * @param msg
+     * @return
+     */
     public static Result error(String msg) {
         Result result = new Result();
         result.setMsg(msg);

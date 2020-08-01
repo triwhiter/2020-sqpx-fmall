@@ -4,17 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ctgu.fmall.common.ResultEnum;
 import com.ctgu.fmall.dto.AuthDTO;
 import com.ctgu.fmall.entity.User;
-import com.ctgu.fmall.mapper.UserMapper;
+import com.ctgu.fmall.service.UserService;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.sql.Wrapper;
 
 /**
  * @Auther: yanghao
@@ -27,18 +28,26 @@ import java.sql.Wrapper;
 @Slf4j
 public class AuthController {
     @Autowired
-    UserMapper userMapper;
+    UserService userService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @PostMapping("/login")
     public Result login(@RequestBody @Valid AuthDTO authDTO){
+        log.info("登录信息："+authDTO);
         QueryWrapper<User> wrapper = new QueryWrapper();
         wrapper.eq("nick_name",authDTO.getUsername())
         .eq("password",authDTO.getPassword());
-        User user=userMapper.selectOne(wrapper);
+        User user=userService.getOne(wrapper);
         if(user==null){
             return ResultUtil.error(ResultEnum.LOGIN_FAILED);
         }
+        if(passwordEncoder.matches(authDTO.getPassword(),user.getPassword())){
+            log.warn("密码正确");
+            return ResultUtil.success("登录成功",user);
+        }
         log.info("请求登录");
-        return ResultUtil.success("登录成功",user);
+        return ResultUtil.error(ResultEnum.LOGIN_FAILED);
     }
 
     @PostMapping("/register")
