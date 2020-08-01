@@ -1,4 +1,4 @@
-package com.ctgu.fmall.utils;
+package com.ctgu.fmall.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +15,10 @@ public enum ResultEnum {
     FAIL("操作失败",400),
     UNAUTHORIZED("请登录后进行操作",401),
     NOT_FOUND("页面不存在",404),
-    INTERNAL_SERVER_ERROR("服务器繁忙",500);
+    INTERNAL_SERVER_ERROR("服务器繁忙",500),
+    PARAMETER_ERROR("参数错误",-1),
+    LOGIN_FAILED("用户名或密码错误",1000);
+
     public String msg;
     public int code;
 }

@@ -1,12 +1,13 @@
 package com.ctgu.fmall.utils;
 
+import com.ctgu.fmall.common.ResultEnum;
 import com.ctgu.fmall.vo.Result;
 
 /**
  * @author Evan
  * @date 2019/4
  */
-public class ResultFactory {
+public class ResultUtil {
 
 
     /**
@@ -15,7 +16,7 @@ public class ResultFactory {
      * @param message
      * @return
      */
-    public static Result buildSuccessResult(Object data,String message) {
+    public static Result success(String message,Object data) {
         Result result = new Result(message,data);
         return result;
     }
@@ -25,7 +26,7 @@ public class ResultFactory {
      * @param data
      * @return
      */
-    public static Result buildSuccessResult(Object data) {
+    public static Result success(Object data) {
         Result result = new Result(data);
         return result;
     }
@@ -35,7 +36,7 @@ public class ResultFactory {
      * @param msg
      * @return
      */
-    public static Result buildSuccessResult(String msg) {
+    public static Result success(String msg) {
         Result result = new Result(msg);
         return result;
     }
@@ -45,10 +46,16 @@ public class ResultFactory {
      * @param resultEnum
      * @return
      */
-    public static Result buildFailResult(ResultEnum resultEnum) {
+    public static Result error(ResultEnum resultEnum) {
         Result result = new Result(resultEnum);
         return result;
     }
 
+    public static Result error(String msg) {
+        Result result = new Result();
+        result.setMsg(msg);
+        result.setCode(-1);
+        return result;
+    }
     
 }

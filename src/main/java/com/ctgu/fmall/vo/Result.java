@@ -1,14 +1,17 @@
 package com.ctgu.fmall.vo;
 
 
-import com.ctgu.fmall.utils.ResultEnum;
+import com.ctgu.fmall.common.ResultEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @ApiModel(value = "封装返回对象", description = "")
+@NoArgsConstructor
 public class Result {
 
     @ApiModelProperty(value = "返回code,400为失败，200为成功")

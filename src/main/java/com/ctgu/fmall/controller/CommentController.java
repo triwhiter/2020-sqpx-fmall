@@ -4,7 +4,7 @@ package com.ctgu.fmall.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ctgu.fmall.entity.Comment;
 import com.ctgu.fmall.service.CommentService;
-import com.ctgu.fmall.utils.ResultFactory;
+import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,8 @@ public class CommentController {
     @GetMapping("/total")
     @ApiOperation("获取评论总数量")
     public Result getTotalComment(){
-        System.out.println(ResultFactory.buildSuccessResult(20));
-        return ResultFactory.buildSuccessResult(commentService.list(null).size());
+        System.out.println(ResultUtil.success(20));
+        return ResultUtil.success(commentService.list(null).size());
     }
 
     @GetMapping("/{uid}")
@@ -41,7 +41,7 @@ public class CommentController {
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         wrapper.eq("uid",uid);
         List<Comment> comments =commentService.list(wrapper);
-        return ResultFactory.buildSuccessResult(comments,"查找成功");
+        return ResultUtil.success("查找成功",comments);
     }
 
 }
