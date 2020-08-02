@@ -75,20 +75,21 @@ public class SmsServiceImpl implements SmsService {
         map.put("code",code);
         log.info("生成的验证码：{}",code);
         request.putQueryParameter("TemplateParam", JSONObject.toJSONString(map));
-        try {
-            CommonResponse response = client.getCommonResponse(request);
+        stringRedisTemplate.opsForValue().set(phone,code,expire, TimeUnit.MINUTES);
+
+//        try {
+//            CommonResponse response = client.getCommonResponse(request);
 //            测试环境验证码直接从Redis查看
 //            if(response.getHttpResponse().isSuccess()){
-              System.out.println(response.getData());
-                stringRedisTemplate.opsForValue().set(phone,code,expire, TimeUnit.MINUTES);
+//              System.out.println(response.getData());
                 return  true;
 //            }
 
-        } catch (ServerException e) {
-            e.printStackTrace();
-        } catch (ClientException e) {
-            e.printStackTrace();
-        }
-        return false;
+//        } catch (ServerException e) {
+//            e.printStackTrace();
+//        } catch (ClientException e) {
+//            e.printStackTrace();
+//        }
+//        return false;
     }
 }

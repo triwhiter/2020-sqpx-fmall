@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author zhen
- * @since 2020-07-31
+ * @since 2020-08-02
  */
 @RestController
-@RequestMapping("/orderList")
+@RequestMapping("/fmall/orderList")
 public class OrderListController {
 
 }

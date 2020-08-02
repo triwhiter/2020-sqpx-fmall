@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zhen
- * @since 2020-07-31
+ * @since 2020-08-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -32,21 +32,6 @@ public class OrderList implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "订单号")
-    private String orderCode;
-
-    @ApiModelProperty(value = "地址")
-    private String address;
-
-    @ApiModelProperty(value = "邮编")
-    private String post;
-
-    @ApiModelProperty(value = "收货人姓名")
-    private String receiver;
-
-    @ApiModelProperty(value = "电话")
-    private String mobile;
-
     @ApiModelProperty(value = "用户留言")
     private String userMessage;
 
@@ -55,6 +40,9 @@ public class OrderList implements Serializable {
 
     @ApiModelProperty(value = "会员编号")
     private Integer uid;
+
+    @ApiModelProperty(value = "地址编号")
+    private Integer aid;
 
     @ApiModelProperty(value = "订单状态")
     private String status;

@@ -31,7 +31,7 @@ public class CodeGenerator {
         gc.setOutputDir(projectPath+"/src/main/java");
         gc.setAuthor("zhen");
         gc.setOpen(false);
-        gc.setFileOverride(false); // 是否覆盖
+            gc.setFileOverride(false); // 是否覆盖
         gc.setServiceName("%sService"); // 去Service的I前缀
         gc.setIdType(IdType.ID_WORKER);
         gc.setDateType(DateType.ONLY_DATE);
@@ -42,7 +42,7 @@ public class CodeGenerator {
         dsc.setUrl("jdbc:mysql://127.0.0.1:3306/fmall?useUnicode=true&characterEncoding=UTF-8&userSSL=false&serverTimezone=GMT%2B8");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("123456");
+        dsc.setPassword("root");
         dsc.setDbType(DbType.MYSQL);
         mpg.setDataSource(dsc);
         //3、包的配置
@@ -56,6 +56,7 @@ public class CodeGenerator {
         mpg.setPackageInfo(pc);
         //4、策略配置
         StrategyConfig strategy = new StrategyConfig();
+//        strategy.setInclude("address");
         //strategy.setInclude("admin","user","category","property","product","property_value","product_image","comment","shop_cart","order_list","order_detail"); // 设置要映射的表名
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);

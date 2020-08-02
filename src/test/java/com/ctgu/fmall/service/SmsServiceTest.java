@@ -25,6 +25,6 @@ public class SmsServiceTest extends TestCase {
 
     @Test
     public void test(){
-        log.info("发送结果："+smsService.send("16608601091"));
+        log.info("发送结果："+smsService.send("12121221"));
     }
 }
