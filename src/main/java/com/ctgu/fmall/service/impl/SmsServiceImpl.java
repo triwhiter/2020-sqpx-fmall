@@ -73,6 +73,7 @@ public class SmsServiceImpl implements SmsService {
         HashMap<String,String> map=new HashMap<>();
         String code= UUID.randomUUID().toString().substring(0,4);
         map.put("code",code);
+        log.info("生成的验证码：{}",code);
         request.putQueryParameter("TemplateParam", JSONObject.toJSONString(map));
         try {
             CommonResponse response = client.getCommonResponse(request);
