@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @Auther: yanghao
  * @Date: 2020/8/2 20:02
  * @PackageName:com.ctgu.fmall.utils
- * @Description: TODO
+ * @Description: 这是全局公共的工具类
  * @Version:V1.0
  */
 @Slf4j
@@ -31,6 +31,10 @@ public class CommonUtil {
         CommonUtil.userService=userService;
     }
 
+    /**
+     * 获取当前登录的用户
+     * @return
+     */
     public  static User  getCurrentUser(){
         /**
          SecurityContextHolder.getContext()获取安全上下文对象，就是那个保存在 ThreadLocal 里面的安全上下文对象

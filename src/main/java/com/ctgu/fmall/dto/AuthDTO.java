@@ -27,4 +27,10 @@ public class AuthDTO {
     private String phone;
 
     private String checkNum;
+
+    private String name;
+
+    private String mail;
+
+    private String sex;
 }
