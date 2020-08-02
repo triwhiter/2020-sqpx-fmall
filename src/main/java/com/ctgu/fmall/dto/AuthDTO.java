@@ -23,4 +23,8 @@ public class AuthDTO {
     @NotBlank(message = "密码不能为空")
     @Length(min = 6,max = 25,message = "密码长度为6-25")
     private String password;
+
+    private String phone;
+
+    private String checkNum;
 }

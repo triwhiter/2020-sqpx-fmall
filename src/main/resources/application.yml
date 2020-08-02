@@ -7,6 +7,14 @@ spring:
     password: root
   profiles:
     active: dev
+
+#  Redis连接信息，存储验证码
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+
 # mybatis-plus-log
 mybatis-plus:
   configuration:

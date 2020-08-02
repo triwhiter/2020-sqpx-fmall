@@ -128,6 +128,14 @@
             <version>1.2.4</version>
         </dependency>
 
+<!--        阿里云短信业务-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.5.3</version>
+        </dependency>
+<!--        存放验证码-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>

@@ -111,9 +111,6 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-
-
-
         //退出时返回Json数据
         http.logout()
                 .logoutUrl("/logout").deleteCookies()
