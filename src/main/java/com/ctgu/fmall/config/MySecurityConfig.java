@@ -74,7 +74,21 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     //    认证策略
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //authorizeRequests:声明配置是权限配置
+        //antMatchers：拦截路径
+        //permitAll：任何权限都可以访问
+        //anyRequest：任何请求
+        //authenticated：认证后才能访问
+        //and().csrf().disable()：固定写法，表示csrf拦截失效
 
+        http.authorizeRequests()
+//                .mvcMatchers("/api/*").hasRole("ADMIN")
+//                .mvcMatchers("/api/user/*").access("hasRole('ADMIN')")
+//                .mvcMatchers("/user/**").hasAnyRole("ADMIN","ROOT")
+//                .mvcMatchers("/user/**").denyAll()
+                .mvcMatchers("/**").permitAll().anyRequest().authenticated()
+                .anyRequest().permitAll();
+//                .authenticated();
         //开启跨域
 /*        http.cors();
 
@@ -85,6 +99,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .formLogin()
+                .loginProcessingUrl("/api/login")
+                .loginPage("/login")
                 .permitAll()
                 .and()
                 .httpBasic()
@@ -93,17 +109,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .configurationSource(corsConfigurationSource())
                 .and().csrf().disable();
 
-        http.formLogin()
-                .loginProcessingUrl("/api/login")
-                .loginPage("/login");
 
-        http.authorizeRequests()
-//                .mvcMatchers("/api/*").hasRole("ADMIN")
-//                .mvcMatchers("/api/user/*").access("hasRole('ADMIN')")
-                .mvcMatchers("/user/**").hasRole("USER")
-                .mvcMatchers("/api/**").permitAll().anyRequest().authenticated()
-                .anyRequest().permitAll();
-//                .authenticated();
+
+
 
 
         //退出时返回Json数据

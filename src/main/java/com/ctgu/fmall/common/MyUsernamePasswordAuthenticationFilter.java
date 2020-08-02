@@ -29,7 +29,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
         }
 
         System.out.println(request.getContentType());
-        if (request.getContentType().equals("application/json;charset=UTF-8")) {
+        if (request.getContentType().contains("json")) {
             // 说明用户以 JSON 的形式传递的参数
             String username = null;
             String password = null;
