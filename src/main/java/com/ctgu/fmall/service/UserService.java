@@ -2,6 +2,7 @@ package com.ctgu.fmall.service;
 
 import com.ctgu.fmall.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ctgu.fmall.vo.Result;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
+    Result getUserInfoById(int id);
 }
