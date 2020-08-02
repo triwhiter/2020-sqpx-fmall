@@ -4,17 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ctgu.fmall.common.ResultEnum;
 import com.ctgu.fmall.dto.AuthDTO;
 import com.ctgu.fmall.entity.User;
+import com.ctgu.fmall.service.SmsService;
 import com.ctgu.fmall.service.UserService;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -29,6 +30,12 @@ import javax.validation.Valid;
 public class AuthController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    SmsService smsService;
+
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -53,6 +60,27 @@ public class AuthController {
     @PostMapping("/register")
     public Result register(){
         return ResultUtil.success("注册成功");
+    }
+
+
+    @PostMapping("/verifyCode")
+    public Result verifyCode(@RequestBody String phone, HttpServletRequest request){
+        HttpSession session=request.getSession();
+        if(smsService.send(phone)){
+            return ResultUtil.success("验证码发送成功");
+        }
+        return ResultUtil.error("验证码发送太频繁，请稍后再试");
+    }
+
+    @PostMapping("/confirmCode")
+    public Result confirmCode(@RequestBody AuthDTO authDTO){
+        log.info("手机号：{}，验证码：{}",authDTO.getPhone(),authDTO.getCheckNum());
+        String dbCode=stringRedisTemplate.opsForValue().get(authDTO.getPhone());
+        log.info("Redis验证码{}",dbCode);
+        if(dbCode==null || !dbCode.equals(authDTO.getCheckNum())){
+           return ResultUtil.error("验证码有误");
+        }
+        return ResultUtil.success("验证成功");
     }
 
 }
