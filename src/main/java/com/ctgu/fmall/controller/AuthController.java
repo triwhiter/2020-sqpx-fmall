@@ -10,6 +10,7 @@ import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,10 @@ public class AuthController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Value("${user.default.avatar}")
+    private String avatar;
+
     @PostMapping("/login")
     public Result login(@RequestBody @Valid AuthDTO authDTO){
         log.info("登录信息："+authDTO);
@@ -49,12 +54,31 @@ public class AuthController {
         if(user==null || !passwordEncoder.matches(authDTO.getPassword(),user.getPassword())){
             return ResultUtil.error(ResultEnum.LOGIN_FAILED);
         }
-        log.warn("密码正确");
         return ResultUtil.success("登录成功",user);
     }
 
     @PostMapping("/register")
-    public Result register(){
+    public Result register(@RequestBody AuthDTO authDTO){
+        log.info("注册信息："+authDTO);
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("nick_name",authDTO.getUsername());
+        if(userService.getOne(wrapper)!=null){
+            return ResultUtil.error("昵称已被占用");
+        }
+        User user=new User();
+        user.setAvatar(avatar);
+        user.setNickName(authDTO.getUsername());
+        user.setEmail(authDTO.getMail());
+        user.setPhoneNumber(authDTO.getPhone());
+        user.setSex(authDTO.getSex());
+        user.setUserName(authDTO.getName());
+        user.setPassword(passwordEncoder.encode(authDTO.getPassword()));
+        try {
+            userService.save(user);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            return  ResultUtil.error("注册信息有误");
+        }
         return ResultUtil.success("注册成功");
     }
 
