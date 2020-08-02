@@ -6,6 +6,7 @@ import com.ctgu.fmall.service.CategoryService;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @RequestMapping("/all")
+    @PostMapping("/all")
     private Result getAllCategory(){
         List<Category> list= categoryService.list(null);
         return ResultUtil.success(list);
