@@ -157,10 +157,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
          */
         filter.setAuthenticationSuccessHandler((req, resp, authentication) -> {
             try {
-                log.info(authentication.getName());
-                QueryWrapper<User> wrapper = new QueryWrapper<>();
-                wrapper.eq("email", authentication.getName());
-                User user = userService.getOne(wrapper);
+                User user = userService.getById(authentication.getName());
+                log.info("获取authentication.getName()：{}",authentication.getName());
                 log.warn(String.valueOf((authentication.getPrincipal().getClass().getDeclaredField("username"))));
                 Result ok = ResultUtil.success("登录成功", user);
                 resp.setContentType("application/json;charset=utf-8");
