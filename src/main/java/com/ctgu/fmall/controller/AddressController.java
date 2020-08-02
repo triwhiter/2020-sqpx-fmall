@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-08-02
  */
 @RestController
-@RequestMapping("/fmall/orderList")
-public class OrderListController {
+@RequestMapping("/fmall/address")
+public class AddressController {
 
 }
 

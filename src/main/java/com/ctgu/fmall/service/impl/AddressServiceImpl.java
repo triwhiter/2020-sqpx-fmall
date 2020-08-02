@@ -1,8 +1,8 @@
 package com.ctgu.fmall.service.impl;
 
-import com.ctgu.fmall.entity.User;
-import com.ctgu.fmall.mapper.UserMapper;
-import com.ctgu.fmall.service.UserService;
+import com.ctgu.fmall.entity.Address;
+import com.ctgu.fmall.mapper.AddressMapper;
+import com.ctgu.fmall.service.AddressService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-08-02
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> implements AddressService {
 
 }

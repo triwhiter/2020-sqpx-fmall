@@ -23,29 +23,20 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="OrderList对象", description="")
-public class OrderList implements Serializable {
+@ApiModel(value="Address对象", description="")
+public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "订单编号")
+    @ApiModelProperty(value = "地址ID")
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "用户留言")
-    private String userMessage;
-
-    @ApiModelProperty(value = "支付金额")
-    private Float amount;
-
-    @ApiModelProperty(value = "会员编号")
+    @ApiModelProperty(value = "用户ID")
     private Integer uid;
 
-    @ApiModelProperty(value = "地址编号")
-    private Integer aid;
-
-    @ApiModelProperty(value = "订单状态")
-    private String status;
+    @ApiModelProperty(value = "收货信息_包含地址和电话")
+    private String info;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
