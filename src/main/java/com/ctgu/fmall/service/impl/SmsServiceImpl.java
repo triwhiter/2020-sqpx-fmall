@@ -10,9 +10,11 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.ctgu.fmall.service.SmsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -27,6 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @Version:V1.0
  */
 @Service
+@Slf4j
 public class SmsServiceImpl implements SmsService {
     @Value("${sms.id}")
     private String Id;
@@ -60,17 +63,26 @@ public class SmsServiceImpl implements SmsService {
         request.setSysVersion("2017-05-25");
         request.setSysAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");
+
         request.putQueryParameter("TemplateCode", template);
-        request.putQueryParameter("SignName", signName);
+
+        request.putQueryParameter("SignName",signName);
+        log.info("验证签名：{}",signName);
+        request.putQueryParameter("PhoneNumbers", phone);
+
         HashMap<String,String> map=new HashMap<>();
         String code= UUID.randomUUID().toString().substring(0,4);
+        map.put("code",code);
         request.putQueryParameter("TemplateParam", JSONObject.toJSONString(map));
         try {
             CommonResponse response = client.getCommonResponse(request);
-            if(response.getHttpResponse().isSuccess()){
+//            测试环境验证码直接从Redis查看
+//            if(response.getHttpResponse().isSuccess()){
+              System.out.println(response.getData());
                 stringRedisTemplate.opsForValue().set(phone,code,expire, TimeUnit.MINUTES);
-            }
-            System.out.println(response.getData());
+                return  true;
+//            }
+
         } catch (ServerException e) {
             e.printStackTrace();
         } catch (ClientException e) {

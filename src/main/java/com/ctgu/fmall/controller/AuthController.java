@@ -46,15 +46,11 @@ public class AuthController {
         wrapper.eq("nick_name",authDTO.getUsername())
         .eq("password",authDTO.getPassword());
         User user=userService.getOne(wrapper);
-        if(user==null){
+        if(user==null || !passwordEncoder.matches(authDTO.getPassword(),user.getPassword())){
             return ResultUtil.error(ResultEnum.LOGIN_FAILED);
         }
-        if(passwordEncoder.matches(authDTO.getPassword(),user.getPassword())){
-            log.warn("密码正确");
-            return ResultUtil.success("登录成功",user);
-        }
-        log.info("请求登录");
-        return ResultUtil.error(ResultEnum.LOGIN_FAILED);
+        log.warn("密码正确");
+        return ResultUtil.success("登录成功",user);
     }
 
     @PostMapping("/register")
@@ -64,12 +60,15 @@ public class AuthController {
 
 
     @PostMapping("/verifyCode")
-    public Result verifyCode(@RequestBody String phone, HttpServletRequest request){
-        HttpSession session=request.getSession();
-        if(smsService.send(phone)){
-            return ResultUtil.success("验证码发送成功");
-        }
-        return ResultUtil.error("验证码发送太频繁，请稍后再试");
+    public Result verifyCode(@RequestBody String phone){
+//        测试用
+        smsService.send(phone);
+        return ResultUtil.success("验证码发送成功");
+
+//       if(smsService.send(phone)){
+//            return ResultUtil.success("验证码发送成功");
+//        }
+//        return ResultUtil.error("验证码发送太频繁，请稍后再试");
     }
 
     @PostMapping("/confirmCode")
