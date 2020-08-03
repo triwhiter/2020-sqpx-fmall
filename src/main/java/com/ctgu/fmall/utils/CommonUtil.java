@@ -5,7 +5,6 @@ import com.ctgu.fmall.mapper.UserMapper;
 import com.ctgu.fmall.service.UserService;
 import com.sun.media.jfxmedia.logging.Logger;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authc.AuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
