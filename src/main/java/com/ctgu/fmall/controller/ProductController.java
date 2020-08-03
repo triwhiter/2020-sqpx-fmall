@@ -57,7 +57,7 @@ public class ProductController {
             List<ProductImage>productImages=productImageService.list(imageQueryWrapper);
             if(productImages.size()>0){
                 String imgUrl=productImages.get(0).getImgUrl();
-                ProductVO productVO = new ProductVO(p,imgUrl);
+                ProductVO productVO = new ProductVO(p,imgUrl,oldPage.getTotal());
                 productVOS.add(productVO);
             }
         }
