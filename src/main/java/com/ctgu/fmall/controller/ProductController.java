@@ -54,14 +54,13 @@ public class ProductController {
     @Autowired
     ProductImageService productImageService;
 
-    @Resource(name = "highLevelClient")
-    private RestHighLevelClient restHighLevelClient;
+
 
     @Autowired
     SearchService searchService;
 
-    @GetMapping("/{pageNo}/{pageSize}")
-    public Result getProductsByPage(@PathVariable Integer pageNo, @PathVariable("pageSize") Integer pageSize) throws IOException {
+    @GetMapping("/{pageNo}/{pageSize}/{cid}")
+    public Result getProductsByPage(@PathVariable Integer pageNo, @PathVariable("pageSize") Integer pageSize, @PathVariable int cid) throws IOException {
         IPage page = new Page<Product>(pageNo,pageSize);
         QueryWrapper<Product> wrapper= new QueryWrapper<>();
         IPage oldPage=productService.page(page,wrapper);
@@ -73,8 +72,6 @@ public class ProductController {
             hashMap.put("total",oldPage.getTotal());
             ResultUtil.success(hashMap);
         }
-        BulkRequest bulkRequest = new BulkRequest();
-        bulkRequest.timeout("10s");
         for(Product p:productList){
             log.info(p.toString());
             QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
@@ -84,20 +81,21 @@ public class ProductController {
                 String imgUrl=productImages.get(0).getImgUrl();
                 ProductVO productVO = new ProductVO(p,imgUrl);
                 productVOS.add(productVO);
-                bulkRequest.add(new IndexRequest("product").source(JSON.toJSONString(p), XContentType.JSON));
             }
         }
-        BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
-        log.warn("索引是否建立成功："+!bulk.hasFailures());
         hashMap.put("list",productVOS);
         hashMap.put("total",oldPage.getTotal());
         return ResultUtil.success(hashMap);
     }
 
-    @GetMapping("/search/{pageNo}/{pageSize}/{keyword}/{cid}")
-    public Result search(@PathVariable int pageNo, @PathVariable int pageSize, @PathVariable String keyword, @PathVariable int cid) throws IOException {
-        log.info("搜索词：页码：{}，页数：{}",keyword,pageNo,pageSize);
-        return ResultUtil.success(searchService.searchProduct(keyword,pageNo,pageSize,cid));
+
+
+    @GetMapping("/search/{keyword}/{pageNo}/{pageSize}/{cid}")
+    public Result search(@PathVariable String keyword,@PathVariable int pageNo, @PathVariable int pageSize, @PathVariable int cid) throws IOException {
+        log.info("搜索词：页码：{}，页数：{},分类ID：{}",keyword,pageNo,pageSize,cid);
+        HashMap map =searchService.searchProduct(keyword,pageNo,pageSize,cid);
+        log.info("搜索情况："+map);
+        return ResultUtil.success(map);
     }
 
 

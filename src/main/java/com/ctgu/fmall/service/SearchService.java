@@ -3,6 +3,7 @@ package com.ctgu.fmall.service;
 import com.ctgu.fmall.vo.ProductVO;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,5 +14,5 @@ import java.util.List;
  * @Version:V1.0
  */
 public interface SearchService {
-    List<ProductVO> searchProduct(String keyword, int pageNo, int pageSize,int cid) throws IOException;
+    HashMap searchProduct(String keyword, int pageNo, int pageSize, int cid) throws IOException;
 }
