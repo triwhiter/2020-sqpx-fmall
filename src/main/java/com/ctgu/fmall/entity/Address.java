@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zhen
- * @since 2020-08-02
+ * @since 2020-08-03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -35,8 +35,20 @@ public class Address implements Serializable {
     @ApiModelProperty(value = "用户ID")
     private Integer uid;
 
-    @ApiModelProperty(value = "收货信息_包含地址和电话")
-    private String info;
+    @ApiModelProperty(value = "收件人姓名")
+    private String receiver;
+
+    @ApiModelProperty(value = "具体地址")
+    private String street;
+
+    @ApiModelProperty(value = "地区")
+    private String area;
+
+    @ApiModelProperty(value = "收件电话")
+    private String phone;
+
+    @ApiModelProperty(value = "邮编")
+    private String zipCode;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)

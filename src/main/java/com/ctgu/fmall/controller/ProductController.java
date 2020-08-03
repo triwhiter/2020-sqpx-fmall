@@ -1,9 +1,9 @@
 package com.ctgu.fmall.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.ctgu.fmall.utils.ResultUtil;
+import com.ctgu.fmall.vo.Result;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2020-08-03
  */
 @RestController
-@RequestMapping("/fmall/product")
+@RequestMapping("/products")
 public class ProductController {
-
+    @GetMapping("/")
+    public Result getProductsByPage(){
+     return ResultUtil.success();
+    }
 }
 
