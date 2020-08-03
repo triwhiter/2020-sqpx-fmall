@@ -3,10 +3,12 @@ package com.ctgu.fmall.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ctgu.fmall.common.ResultEnum;
 import com.ctgu.fmall.entity.OrderList;
 import com.ctgu.fmall.mapper.OrderListMapper;
 import com.ctgu.fmall.service.OrderListService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +35,10 @@ public class OrderListServiceImpl extends ServiceImpl<OrderListMapper, OrderList
     public Result getOrderListInfoByUid(int uid) {
         List<Map> orderListInfo = orderListMapper.getOrderListInfoByUid(uid);
         if(orderListInfo != null){
-            return new Result(200,"获取数据成功",orderListInfo);
+            return ResultUtil.success(orderListInfo);
+            //return new Result(200,"获取数据成功",orderListInfo);
         }else{
-            return new Result(400,"获取数据失败",null);
+            return ResultUtil.error(ResultEnum.FAIL);
         }
     }
 
