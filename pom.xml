@@ -152,9 +152,12 @@
         </dependency>
 
 
+        <!-- 搜索引擎 -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>-->
+<!--        </dependency>-->
 
-
-        <!-- *********************elasticsearch需要用的jar包 begin********************* -->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>elasticsearch-rest-high-level-client</artifactId>
@@ -180,7 +183,7 @@
             <artifactId>elasticsearch</artifactId>
             <version>7.6.1</version>
         </dependency>
-        <!-- *********************elasticsearch需要用的jar包 end********************* -->
+        <!--搜索引擎-->
 
     </dependencies>
 

@@ -7,13 +7,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ctgu.fmall.dto.CProductDTO;
 import com.ctgu.fmall.entity.Category;
-import com.ctgu.fmall.entity.Comment;
 import com.ctgu.fmall.entity.Product;
 import com.ctgu.fmall.entity.ProductImage;
 import com.ctgu.fmall.service.CategoryService;
-import com.ctgu.fmall.service.ESProductService;
+//import com.ctgu.fmall.service.searchService;
 import com.ctgu.fmall.service.ProductImageService;
 import com.ctgu.fmall.service.ProductService;
+import com.ctgu.fmall.service.SearchService;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.ProductVO;
 import com.ctgu.fmall.vo.Result;
@@ -26,7 +26,6 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -34,7 +33,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -60,7 +58,7 @@ public class ProductController {
     private RestHighLevelClient restHighLevelClient;
 
     @Autowired
-    ESProductService esProductService;
+    SearchService searchService;
 
     @GetMapping("/{pageNo}/{pageSize}")
     public Result getProductsByPage(@PathVariable Integer pageNo, @PathVariable("pageSize") Integer pageSize) throws IOException {
@@ -90,16 +88,16 @@ public class ProductController {
             }
         }
         BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
-        log.warn(!bulk.hasFailures()+"");
+        log.warn("索引是否建立成功："+!bulk.hasFailures());
         hashMap.put("list",productVOS);
         hashMap.put("total",oldPage.getTotal());
         return ResultUtil.success(hashMap);
     }
 
-    @GetMapping("/search")
-    public Result search(@RequestParam String keyword) throws IOException {
-        log.info("搜索词："+keyword);
-        return ResultUtil.success(esProductService.searchProduct(keyword));
+    @GetMapping("/search/{pageNo}/{pageSize}/{keyword}/{cid}")
+    public Result search(@PathVariable int pageNo, @PathVariable int pageSize, @PathVariable String keyword, @PathVariable int cid) throws IOException {
+        log.info("搜索词：页码：{}，页数：{}",keyword,pageNo,pageSize);
+        return ResultUtil.success(searchService.searchProduct(keyword,pageNo,pageSize,cid));
     }
 
 
