@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ctgu.fmall.entity.Product;
+import com.ctgu.fmall.entity.ProductImage;
+import com.ctgu.fmall.service.ProductImageService;
 import com.ctgu.fmall.service.ProductService;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.ProductVO;
@@ -35,6 +37,9 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    ProductImageService productImageService;
+
     @GetMapping("/{pageNo}/{pageSize}")
     public Result getProductsByPage(@PathVariable Integer pageNo, @PathVariable("pageSize") Integer pageSize){
         IPage page = new Page<Product>(pageNo,pageSize);
@@ -47,8 +52,16 @@ public class ProductController {
         }
         for(Product p:productList){
             log.info(p.toString());
+            QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
+            imageQueryWrapper.eq("pid",p.getId());
+            List<ProductImage>productImages=productImageService.list(imageQueryWrapper);
+            if(productImages.size()>0){
+                String imgUrl=productImages.get(0).getImgUrl();
+                ProductVO productVO = new ProductVO(p,imgUrl);
+                productVOS.add(productVO);
+            }
         }
-        return ResultUtil.success();
+        return ResultUtil.success(productVOS);
     }
 }
 
