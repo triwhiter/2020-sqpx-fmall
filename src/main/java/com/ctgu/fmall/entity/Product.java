@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zhen
- * @since 2020-07-31
+ * @since 2020-08-03
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -35,8 +35,8 @@ public class Product implements Serializable {
     @ApiModelProperty(value = "商品名称")
     private String name;
 
-    @ApiModelProperty(value = "小标题")
-    private String subTitle;
+    @ApiModelProperty(value = "店名")
+    private String store;
 
     @ApiModelProperty(value = "原价")
     private Float originalPrice;
