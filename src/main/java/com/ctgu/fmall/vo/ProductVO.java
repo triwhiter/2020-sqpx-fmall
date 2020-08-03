@@ -1,5 +1,6 @@
 package com.ctgu.fmall.vo;
 
+import com.ctgu.fmall.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,13 @@ public class ProductVO {
     private String shopName;
     private int saleNum;
     private String  intro;
+    private String imgUrl;
+
+   public ProductVO(Product product,String imgUrl){
+        this.imgUrl=imgUrl;
+        this.intro=product.getName();
+        this.saleNum=product.getSaleNum();
+        this.price=product.getOriginalPrice();
+        this.shopName=product.getStore();
+    }
 }

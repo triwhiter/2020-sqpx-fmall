@@ -31,7 +31,7 @@ public class CodeGenerator {
         gc.setOutputDir(projectPath+"/src/main/java");
         gc.setAuthor("zhen");
         gc.setOpen(false);
-        gc.setFileOverride(true); // 是否覆盖
+        gc.setFileOverride(false); // 是否覆盖
         gc.setServiceName("%sService"); // 去Service的I前缀
         gc.setIdType(IdType.ID_WORKER);
         gc.setDateType(DateType.ONLY_DATE);
