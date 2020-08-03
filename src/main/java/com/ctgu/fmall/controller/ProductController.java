@@ -149,11 +149,11 @@ public class ProductController {
         return ResultUtil.success(productVOS);
     }
 
-    @GetMapping("/{pid}")
+    @GetMapping("/{id}")
     @ApiOperation("通过商品编号获得商品详情")
-    public Result getProductByid(@PathVariable int pid){
+    public Result getProductByid(@PathVariable int id){
         QueryWrapper<Product> wrapper=new QueryWrapper<>();
-        wrapper.eq("pid",pid);
+        wrapper.eq("id",id);
         Product product = productService.getOne(wrapper);
         QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
         imageQueryWrapper.eq("pid",product.getId());
