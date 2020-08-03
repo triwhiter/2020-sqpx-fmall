@@ -9,6 +9,7 @@ import com.ctgu.fmall.entity.Product;
 import com.ctgu.fmall.service.CategoryService;
 import com.ctgu.fmall.service.ProductService;
 import com.ctgu.fmall.utils.ResultUtil;
+import com.ctgu.fmall.vo.ProductVO;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,44 @@ import java.util.List;
  * </p>
  *
  * @author zhen
- * @since 2020-07-31
+ * @since 2020-08-03
  */
+
 @RestController
-@RequestMapping("/product")
+@Slf4j
+@RequestMapping("/products")
 public class ProductController {
+    @Autowired
+    ProductService productService;
 
     @Autowired
-    private ProductService productService;
-    @Autowired
     private CategoryService categoryService;
+    @Autowired
+    ProductImageService productImageService;
+
+    @GetMapping("/{pageNo}/{pageSize}")
+    public Result getProductsByPage(@PathVariable Integer pageNo, @PathVariable("pageSize") Integer pageSize){
+        IPage page = new Page<Product>(pageNo,pageSize);
+        QueryWrapper<Product> wrapper= new QueryWrapper<>();
+        IPage oldPage=productService.page(page,wrapper);
+        List<Product>productList=oldPage.getRecords();
+        List<ProductVO>productVOS=new ArrayList<>();
+        if(productList.size()==0){
+            ResultUtil.success(productVOS);
+        }
+        for(Product p:productList){
+            log.info(p.toString());
+            QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
+            imageQueryWrapper.eq("pid",p.getId());
+            List<ProductImage>productImages=productImageService.list(imageQueryWrapper);
+            if(productImages.size()>0){
+                String imgUrl=productImages.get(0).getImgUrl();
+                ProductVO productVO = new ProductVO(p,imgUrl);
+                productVOS.add(productVO);
+            }
+        }
+        return ResultUtil.success(productVOS);
+    }
 
     @PostMapping("/allinCate")
     @ApiOperation("获取所有目录以及目录下面的所有商品")
@@ -68,6 +97,5 @@ public class ProductController {
         Product product = productService.getOne(wrapper);
         return ResultUtil.success(product);
     }
-
 }
 
