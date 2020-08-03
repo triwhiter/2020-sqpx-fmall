@@ -2,6 +2,7 @@ package com.ctgu.fmall.mapper;
 
 import com.ctgu.fmall.entity.Address;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -9,8 +10,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author zhen
- * @since 2020-08-03
+ * @since 2020-08-02
  */
+@Repository
 public interface AddressMapper extends BaseMapper<Address> {
 
 }

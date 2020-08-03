@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -30,7 +31,7 @@ public class OrderListServiceImpl extends ServiceImpl<OrderListMapper, OrderList
 
     @Override
     public Result getOrderListInfoByUid(int uid) {
-        List<Object> orderListInfo = orderListMapper.getOrderListInfoByUid(uid);
+        List<Map> orderListInfo = orderListMapper.getOrderListInfoByUid(uid);
         if(orderListInfo != null){
             return new Result(200,"获取数据成功",orderListInfo);
         }else{
