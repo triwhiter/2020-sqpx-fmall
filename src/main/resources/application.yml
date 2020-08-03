@@ -1,12 +1,25 @@
 # database
 spring:
+  profiles:
+    active: dev
+#  data:
+#    elasticsearch:
+#      cluster-name: elasticsearch
+#      cluster-nodes: localhost:9300
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      hosts: localhost
+      port: 9200
+      scheme: http
+      timeout: 5000
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/fmall?useUnicode=true&characterEncoding=UTF-8&userSSL=false&serverTimezone=GMT%2B8
     username: root
     password: root
-  profiles:
-    active: dev
+
 
 #  Redis连接信息，存储验证码
   redis:

@@ -1,6 +1,7 @@
 package com.ctgu.fmall.controller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,6 +11,7 @@ import com.ctgu.fmall.entity.Comment;
 import com.ctgu.fmall.entity.Product;
 import com.ctgu.fmall.entity.ProductImage;
 import com.ctgu.fmall.service.CategoryService;
+import com.ctgu.fmall.service.ESProductService;
 import com.ctgu.fmall.service.ProductImageService;
 import com.ctgu.fmall.service.ProductService;
 import com.ctgu.fmall.utils.ResultUtil;
@@ -17,9 +19,18 @@ import com.ctgu.fmall.vo.ProductVO;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,8 +56,14 @@ public class ProductController {
     @Autowired
     ProductImageService productImageService;
 
+    @Resource(name = "highLevelClient")
+    private RestHighLevelClient restHighLevelClient;
+
+    @Autowired
+    ESProductService esProductService;
+
     @GetMapping("/{pageNo}/{pageSize}")
-    public Result getProductsByPage(@PathVariable Integer pageNo, @PathVariable("pageSize") Integer pageSize){
+    public Result getProductsByPage(@PathVariable Integer pageNo, @PathVariable("pageSize") Integer pageSize) throws IOException {
         IPage page = new Page<Product>(pageNo,pageSize);
         QueryWrapper<Product> wrapper= new QueryWrapper<>();
         IPage oldPage=productService.page(page,wrapper);
@@ -58,6 +75,8 @@ public class ProductController {
             hashMap.put("total",oldPage.getTotal());
             ResultUtil.success(hashMap);
         }
+        BulkRequest bulkRequest = new BulkRequest();
+        bulkRequest.timeout("10s");
         for(Product p:productList){
             log.info(p.toString());
             QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
@@ -67,12 +86,22 @@ public class ProductController {
                 String imgUrl=productImages.get(0).getImgUrl();
                 ProductVO productVO = new ProductVO(p,imgUrl);
                 productVOS.add(productVO);
+                bulkRequest.add(new IndexRequest("product").source(JSON.toJSONString(p), XContentType.JSON));
             }
         }
+        BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
+        log.warn(!bulk.hasFailures()+"");
         hashMap.put("list",productVOS);
         hashMap.put("total",oldPage.getTotal());
         return ResultUtil.success(hashMap);
     }
+
+    @GetMapping("/search")
+    public Result search(@RequestParam String keyword) throws IOException {
+        log.info("搜索词："+keyword);
+        return ResultUtil.success(esProductService.searchProduct(keyword));
+    }
+
 
     @PostMapping("/allinCate")
     @ApiOperation("获取所有目录以及目录下面的所有商品")
