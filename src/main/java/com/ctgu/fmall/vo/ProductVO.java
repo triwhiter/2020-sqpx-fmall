@@ -18,19 +18,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductVO {
+    private int productId;
     private  float price;
     private String shopName;
     private int saleNum;
     private String  intro;
     private String imgUrl;
-    private Long total;
 
-   public ProductVO(Product product,String imgUrl,Long total){
+
+   public ProductVO(Product product,String imgUrl){
+        this.productId=product.getId();
         this.imgUrl=imgUrl;
         this.intro=product.getName();
         this.saleNum=product.getSaleNum();
         this.price=product.getOriginalPrice();
         this.shopName=product.getStore();
-        this.total=total;
     }
 }

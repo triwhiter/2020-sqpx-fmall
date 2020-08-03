@@ -32,7 +32,7 @@ public class CommonUtil {
     }
 
     /**
-     * 获取当前登录的用户
+     * 获取当前登录的用户信息
      * @return
      */
     public  static User  getCurrentUser(){

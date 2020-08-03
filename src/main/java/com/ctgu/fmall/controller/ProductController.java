@@ -21,7 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -50,8 +52,11 @@ public class ProductController {
         IPage oldPage=productService.page(page,wrapper);
         List<Product>productList=oldPage.getRecords();
         List<ProductVO>productVOS=new ArrayList<>();
+        HashMap hashMap=new HashMap();
         if(productList.size()==0){
-            ResultUtil.success(productVOS);
+            hashMap.put("list",productVOS);
+            hashMap.put("total",oldPage.getTotal());
+            ResultUtil.success(hashMap);
         }
         for(Product p:productList){
             log.info(p.toString());
@@ -60,11 +65,13 @@ public class ProductController {
             List<ProductImage>productImages=productImageService.list(imageQueryWrapper);
             if(productImages.size()>0){
                 String imgUrl=productImages.get(0).getImgUrl();
-                ProductVO productVO = new ProductVO(p,imgUrl,oldPage.getTotal());
+                ProductVO productVO = new ProductVO(p,imgUrl);
                 productVOS.add(productVO);
             }
         }
-        return ResultUtil.success(productVOS);
+        hashMap.put("list",productVOS);
+        hashMap.put("total",oldPage.getTotal());
+        return ResultUtil.success(hashMap);
     }
 
     @PostMapping("/allinCate")

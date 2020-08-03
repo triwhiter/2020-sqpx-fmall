@@ -30,8 +30,7 @@ public class UserController {
 
     @GetMapping("")
     public Result test(){
-        CommonUtil.getCurrentUser();
-        return ResultUtil.success();
+        return ResultUtil.success(CommonUtil.getCurrentUser());
     }
 
     @GetMapping("findInfoById/{id}")
