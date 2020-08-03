@@ -122,13 +122,25 @@ public class ProductController {
         return ResultUtil.success(productVOS);
     }
 
-    @GetMapping("/{pid]")
+    @GetMapping("/{pid}")
     @ApiOperation("通过商品编号获得商品详情")
     public Result getProductByid(@PathVariable int pid){
-        QueryWrapper<Product> wrapper=new QueryWrapper<Product>();
+        QueryWrapper<Product> wrapper=new QueryWrapper<>();
         wrapper.eq("pid",pid);
         Product product = productService.getOne(wrapper);
-        return ResultUtil.success(product);
+        QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
+        imageQueryWrapper.eq("pid",product.getId());
+        List<ProductImage> productImages= productImageService.list(imageQueryWrapper);
+        if(productImages.size()>0) {
+            String imgUrl = productImages.get(0).getImgUrl();
+
+            ProductVO productVO = new ProductVO(product, imgUrl);
+            return ResultUtil.success(productVO);
+        }else {
+            ProductVO productVO = new ProductVO(product, null);
+            return ResultUtil.success(productVO);
+        }
+
     }
 }
 
