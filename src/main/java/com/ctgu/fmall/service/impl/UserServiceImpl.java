@@ -20,4 +20,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+    @Override
+    public Result editUser(User user) {
+        boolean IsUpdate = this.updateById(user);
+        if(IsUpdate != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else{
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+    }
 }
