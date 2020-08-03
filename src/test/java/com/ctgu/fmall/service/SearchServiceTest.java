@@ -26,7 +26,9 @@ public class SearchServiceTest extends TestCase {
 
     @Test
     public void search() throws IOException {
-        System.out.println(searchService.searchProduct("面包",1,100,1));
+        System.out.println(searchService.searchProduct("mianbao",1,100,1));
+
+//        System.out.println(searchService.searchProduct("许振爱吃面包坚果测试",1,100,1));
     }
 
 }
