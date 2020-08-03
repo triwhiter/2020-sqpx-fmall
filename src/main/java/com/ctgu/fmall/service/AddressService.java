@@ -2,6 +2,7 @@ package com.ctgu.fmall.service;
 
 import com.ctgu.fmall.entity.Address;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ctgu.fmall.vo.Result;
 
 /**
  * <p>
@@ -13,4 +14,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AddressService extends IService<Address> {
 
+    Result addAddressInfo(Address address);
+
+    Result editAddress(Address address);
+
+    Result delAddress(int id);
+
+    Result getAllAddress(int uid);
 }

@@ -8,11 +8,10 @@ import com.ctgu.fmall.service.AddressService;
 import com.ctgu.fmall.utils.CommonUtil;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,5 +41,30 @@ public class AddressController {
         List<Address> addresses=addressService.list(wrapper);
         return ResultUtil.success(addresses);
     }
+
+    @GetMapping("/getAllAddress/{uid}")
+    @ApiOperation("通过用户id，查找该用户的所有收货地址")
+    public Result getAllAddress(@PathVariable("uid") int uid){
+        return addressService.getAllAddress(uid);
+    }
+
+    @PostMapping("/addAddress")
+    @ApiOperation("添加收货地址")
+    public Result addAddressInfo(@RequestBody Address address){
+        return addressService.addAddressInfo(address);
+    }
+
+    @PutMapping("/editAddress")
+    @ApiOperation("修改收货地址")
+    public Result editAddress(@RequestBody Address address){
+        return addressService.editAddress(address);
+    }
+
+    @DeleteMapping("/del/{id}")
+    @ApiOperation("更加地址Id删除地址")
+    public Result delAddress(@PathVariable("id") int id){
+        return addressService.delAddress(id);
+    }
+
 }
 
