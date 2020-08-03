@@ -34,7 +34,7 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping("/allinCate")
+    @GetMapping("/allinCate")
     @ApiOperation("获取所有目录以及目录下面的所有商品")
     public Result getAllPInC(){
         List<Category> clist = categoryService.list(null);
@@ -53,17 +53,17 @@ public class ProductController {
     @GetMapping("/top5")
     @ApiOperation("月销排名前5的商品")
     public Result listTop5(){
-        QueryWrapper<Product> wrapper =new QueryWrapper<Product>();
+        QueryWrapper<Product> wrapper =new QueryWrapper<>();
         wrapper.orderByDesc("sale_num")
                 .last("limit 5");
         List<Product> list=  productService.list(wrapper);
         return ResultUtil.success(list);
     }
 
-    @GetMapping("/{pid]")
+    @GetMapping("/{pid}")
     @ApiOperation("通过商品编号获得商品详情")
     public Result getProductByid(@PathVariable int pid){
-        QueryWrapper<Product> wrapper=new QueryWrapper<Product>();
+        QueryWrapper<Product> wrapper=new QueryWrapper<>();
         wrapper.eq("pid",pid);
         Product product = productService.getOne(wrapper);
         return ResultUtil.success(product);
