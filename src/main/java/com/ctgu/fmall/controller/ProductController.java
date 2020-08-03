@@ -2,16 +2,21 @@ package com.ctgu.fmall.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ctgu.fmall.dto.CProductDTO;
 import com.ctgu.fmall.entity.Category;
 import com.ctgu.fmall.entity.Comment;
 import com.ctgu.fmall.entity.Product;
+import com.ctgu.fmall.entity.ProductImage;
 import com.ctgu.fmall.service.CategoryService;
+import com.ctgu.fmall.service.ProductImageService;
 import com.ctgu.fmall.service.ProductService;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.ProductVO;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +38,6 @@ import java.util.List;
 public class ProductController {
     @Autowired
     ProductService productService;
-
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -56,7 +60,7 @@ public class ProductController {
             List<ProductImage>productImages=productImageService.list(imageQueryWrapper);
             if(productImages.size()>0){
                 String imgUrl=productImages.get(0).getImgUrl();
-                ProductVO productVO = new ProductVO(p,imgUrl);
+                ProductVO productVO = new ProductVO(p,imgUrl,oldPage.getTotal());
                 productVOS.add(productVO);
             }
         }
