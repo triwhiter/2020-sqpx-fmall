@@ -31,7 +31,6 @@ public class CommentController {
     @GetMapping("/total")
     @ApiOperation("获取评论总数量")
     public Result getTotalComment(){
-        System.out.println(ResultUtil.success(20));
         return ResultUtil.success(commentService.list(null).size());
     }
 

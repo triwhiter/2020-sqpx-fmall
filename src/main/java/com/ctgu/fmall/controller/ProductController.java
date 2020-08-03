@@ -12,11 +12,7 @@ import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +58,15 @@ public class ProductController {
                 .last("limit 5");
         List<Product> list=  productService.list(wrapper);
         return ResultUtil.success(list);
+    }
+
+    @GetMapping("/{pid]")
+    @ApiOperation("通过商品编号获得商品详情")
+    public Result getProductByid(@PathVariable int pid){
+        QueryWrapper<Product> wrapper=new QueryWrapper<Product>();
+        wrapper.eq("pid",pid);
+        Product product = productService.getOne(wrapper);
+        return ResultUtil.success(product);
     }
 
 }
