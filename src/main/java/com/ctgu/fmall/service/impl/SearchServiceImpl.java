@@ -75,6 +75,7 @@ public class SearchServiceImpl implements SearchService {
         //3.指定检索条件
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
+        QueryBuilders.matchQuery("keyword", keyword).boost(2f);
 
         //多条件查询
         MultiMatchQueryBuilder multiMatchQuery = QueryBuilders.multiMatchQuery(keyword, "name", "store");
@@ -84,6 +85,10 @@ public class SearchServiceImpl implements SearchService {
         //检索指定分类下面的商品
         boolQueryBuilder.must(termQueryBuilder);
         boolQueryBuilder.must(multiMatchQuery);
+        // 分词查询，boost 设置权重
+        boolQueryBuilder.should(QueryBuilders.matchQuery("keyword", keyword).boost(2f));
+        //拼音查询
+        boolQueryBuilder.should(QueryBuilders.matchPhraseQuery("keyword.pinyin", keyword).boost(2f));
 
         sourceBuilder.query(boolQueryBuilder);
 
