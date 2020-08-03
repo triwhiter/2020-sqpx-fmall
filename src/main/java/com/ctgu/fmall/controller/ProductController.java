@@ -4,7 +4,6 @@ package com.ctgu.fmall.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ctgu.fmall.dto.CProductDTO;
 import com.ctgu.fmall.entity.Category;
-import com.ctgu.fmall.entity.Comment;
 import com.ctgu.fmall.entity.Product;
 import com.ctgu.fmall.service.CategoryService;
 import com.ctgu.fmall.service.ProductService;
@@ -16,6 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ctgu.fmall.entity.ProductImage;
+import com.ctgu.fmall.service.ProductImageService;
+import com.ctgu.fmall.vo.ProductVO;
+import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * <p>
@@ -26,13 +32,16 @@ import java.util.List;
  * @since 2020-07-31
  */
 @RestController
-@RequestMapping("/product")
+@Slf4j
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
     private ProductService productService;
     @Autowired
     private CategoryService categoryService;
+    @Autowired
+    ProductImageService productImageService;
 
     @GetMapping("/allinCate")
     @ApiOperation("获取所有目录以及目录下面的所有商品")
@@ -67,6 +76,30 @@ public class ProductController {
         wrapper.eq("pid",pid);
         Product product = productService.getOne(wrapper);
         return ResultUtil.success(product);
+    }
+
+    @GetMapping("/{pageNo}/{pageSize}")
+    public Result getProductsByPage(@PathVariable Integer pageNo, @PathVariable("pageSize") Integer pageSize){
+        IPage page = new Page<Product>(pageNo,pageSize);
+        QueryWrapper<Product> wrapper= new QueryWrapper<>();
+        IPage oldPage=productService.page(page,wrapper);
+        List<Product>productList=oldPage.getRecords();
+        List<ProductVO>productVOS=new ArrayList<>();
+        if(productList.size()==0){
+            ResultUtil.success(productVOS);
+        }
+        for(Product p:productList){
+            log.info(p.toString());
+            QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
+            imageQueryWrapper.eq("pid",p.getId());
+            List<ProductImage>productImages=productImageService.list(imageQueryWrapper);
+            if(productImages.size()>0){
+                String imgUrl=productImages.get(0).getImgUrl();
+                ProductVO productVO = new ProductVO(p,imgUrl);
+                productVOS.add(productVO);
+            }
+        }
+        return ResultUtil.success(productVOS);
     }
 
 }
