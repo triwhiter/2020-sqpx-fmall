@@ -74,7 +74,7 @@ public class ProductController {
         return ResultUtil.success(hashMap);
     }
 
-    @PostMapping("/allinCate")
+    @GetMapping("/allinCate")
     @ApiOperation("获取所有目录以及目录下面的所有商品")
     public Result getAllPInC(){
         List<Category> clist = categoryService.list(null);
@@ -126,7 +126,7 @@ public class ProductController {
     @ApiOperation("通过商品编号获得商品详情")
     public Result getProductByid(@PathVariable int pid){
         QueryWrapper<Product> wrapper=new QueryWrapper<>();
-        wrapper.eq("pid",pid);
+        wrapper.eq("id",pid);
         Product product = productService.getOne(wrapper);
         QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
         imageQueryWrapper.eq("pid",product.getId());
