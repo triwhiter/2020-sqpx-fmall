@@ -13,6 +13,4 @@ import com.ctgu.fmall.vo.Result;
  * @since 2020-08-02
  */
 public interface UserService extends IService<User> {
-
-    Result getUserInfoById(int id);
 }

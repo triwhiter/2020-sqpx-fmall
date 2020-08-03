@@ -28,17 +28,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("")
-    public Result test(){
+    @GetMapping("/getUserInfo")
+    public Result getUserInfo(){
         CommonUtil.getCurrentUser();
         return ResultUtil.success();
-    }
-
-    @GetMapping("findInfoById/{id}")
-    @ApiOperation("通过用户id查找用户信息")
-    public Result getUserInfoById(@PathVariable("id") int id){
-        Result userInfoById = userService.getUserInfoById(id);
-        return userInfoById;
     }
 
 }
