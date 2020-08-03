@@ -41,7 +41,7 @@ public class ElasticConfig {
         RestClientBuilder builder = RestClient.builder(new HttpHost("localhost", 9200,"http"));
         builder.setRequestConfigCallback(requestConfigBuilder -> {
             // 设置超时
-            return requestConfigBuilder.setSocketTimeout(5000);
+            return requestConfigBuilder.setSocketTimeout(90000);
         });
         logger.info("elasticsearch初始化配置完成");
         return new RestHighLevelClient(builder);

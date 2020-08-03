@@ -90,7 +90,7 @@ public class ProductController {
             }
         }
         BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, RequestOptions.DEFAULT);
-        log.warn(!bulk.hasFailures()+"");
+        log.warn("索引是否建立成功："+!bulk.hasFailures()+"");
         hashMap.put("list",productVOS);
         hashMap.put("total",oldPage.getTotal());
         return ResultUtil.success(hashMap);
