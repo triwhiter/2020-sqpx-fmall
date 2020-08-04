@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import sun.rmi.runtime.Log;
 
 /**
  * <p>
@@ -30,10 +31,10 @@ public class ProductImage implements Serializable {
 
     @ApiModelProperty(value = "商品图片编号")
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private int id;
 
     @ApiModelProperty(value = "商品编号")
-    private Integer pid;
+    private int pid;
 
     @ApiModelProperty(value = "图片url")
     private String imgUrl;

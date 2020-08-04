@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.ctgu.fmall.dto.OrderDTO;
+import com.ctgu.fmall.utils.CommonUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -55,5 +58,13 @@ public class OrderList implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+    
+    public OrderList(OrderDTO orderDTO){
+        User user= CommonUtil.getCurrentUser();
+        this.aid=orderDTO.getAid();
+        this.amount=orderDTO.getAmount();
+        this.uid=user.getId();
+        this.userMessage=orderDTO.getMessage();
+    }
 
 }

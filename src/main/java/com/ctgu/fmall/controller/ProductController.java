@@ -54,8 +54,6 @@ public class ProductController {
     @Autowired
     ProductImageService productImageService;
 
-
-
     @Autowired
     SearchService searchService;
 

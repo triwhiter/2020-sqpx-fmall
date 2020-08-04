@@ -33,7 +33,7 @@ public class Product implements Serializable {
     @ApiModelProperty(value = "商品编号")
     @TableId(value = "id", type = IdType.AUTO)
 //    @org.springframework.data.annotation.Id//声明es主键
-    private Integer id;
+    private int id;
 
     @ApiModelProperty(value = "商品名称")
     // 下面配置代表 进行存储并以ik_smart方式分词,(默认开启分词)保持的类型为text,进行查询的时候按照ik_smart方式进行分词
