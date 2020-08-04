@@ -104,10 +104,15 @@ public class ProductController {
         List<CProductDTO> list= new ArrayList<>();
         for (Category c: clist) {
             QueryWrapper<Product> wrapper = new QueryWrapper<>();
-            wrapper.eq("cid",c.getId());
+            wrapper.eq("cid",c.getId())
+                    .orderByDesc("sale_num")
+                    .last("limit 6");
             List<Product> plist= productService.list(wrapper);
+
             List<ProductVO> productVOS=new ArrayList<>();
+
             for (Product p: plist ) {
+
                 QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
                 imageQueryWrapper.eq("pid",p.getId());
                 List<ProductImage> productImages= productImageService.list(imageQueryWrapper);
@@ -117,10 +122,12 @@ public class ProductController {
                     productVOS.add(productVO);
                 }
             }
+
             CProductDTO cProductDTO = new CProductDTO(c.getName(),productVOS);
 
             list.add(cProductDTO);
         }
+
         return ResultUtil.success(list);
     }
 
