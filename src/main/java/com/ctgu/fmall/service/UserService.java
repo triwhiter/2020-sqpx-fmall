@@ -14,4 +14,10 @@ import com.ctgu.fmall.vo.Result;
  */
 public interface UserService extends IService<User> {
     Result editUser(User user);
+
+    Result getAllUserInfo(int page, int size);
+
+    Result delUserById(int uid);
+
+    Result addUser(User user);
 }

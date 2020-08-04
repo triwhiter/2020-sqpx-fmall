@@ -10,6 +10,7 @@ import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +46,31 @@ public class OrderListController {
                                    @PathVariable("page") int page,
                                    @PathVariable("num") int num){
         return orderListService.getOrderInfoPage(uid,page,num);
+    }
+
+    @GetMapping("/getAllOrderInfo/{page}/{size}")
+    @ApiOperation("获取所有订单，实现分页")
+    public Result getAllOrderInfo(@PathVariable("page") int page,
+                                  @PathVariable("size") int size){
+        return orderListService.getAllOrderInfo(page,size);
+    }
+
+    @DeleteMapping("/delOrder/{id}")
+    @ApiOperation("根据订单id，删除订单")
+    public Result delOrder(@PathVariable("id") int id){
+        return orderListService.delOrder(id);
+    }
+
+    @PostMapping("/addOrder")
+    @ApiOperation("添加订单")
+    public Result addOrder(@RequestBody OrderList orderList){
+        return orderListService.addOrder(orderList);
+    }
+
+    @PutMapping("editOrder")
+    @ApiOperation("修改订单")
+    public Result editOrder(@RequestBody OrderList orderList){
+        return orderListService.editOrder(orderList);
     }
 
     @PostMapping("/")

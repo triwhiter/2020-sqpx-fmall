@@ -1,6 +1,7 @@
 package com.ctgu.fmall.controller;
 
 
+import com.ctgu.fmall.entity.ShopCart;
 import com.ctgu.fmall.service.ShopCartService;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +40,12 @@ public class ShopCartController {
     @ApiOperation("清空该用户所有购物车")
     public Result delAllShopCart(@PathVariable("uid") int uid){
         return shopCartService.delAllShopCart(uid);
+    }
+
+    @PostMapping("/addShopCart")
+    @ApiOperation("添加购物车")
+    public Result addShopCart(@RequestBody ShopCart shopCart){
+        return shopCartService.addShopCart(shopCart);
     }
 }
 

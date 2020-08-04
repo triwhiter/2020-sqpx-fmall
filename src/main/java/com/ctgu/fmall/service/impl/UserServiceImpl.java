@@ -1,5 +1,7 @@
 package com.ctgu.fmall.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ctgu.fmall.common.ResultEnum;
 import com.ctgu.fmall.entity.User;
 import com.ctgu.fmall.mapper.UserMapper;
@@ -9,6 +11,8 @@ import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -28,5 +32,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }else{
             return ResultUtil.success(ResultEnum.SUCCESS);
         }
+    }
+
+    @Override
+    public Result getAllUserInfo(int page, int size) {
+        IPage<User> userInfoPages = this.page(new Page<>(page, size), null);
+        if(userInfoPages != null){
+            return ResultUtil.success(userInfoPages);
+        }else {
+            return ResultUtil.error(ResultEnum.FAIL);
+        }
+    }
+
+    @Override
+    public Result delUserById(int uid) {
+        boolean IsRemove = this.removeById(uid);
+        if(IsRemove != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else{
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+
+    }
+
+    @Override
+    public Result addUser(User user) {
+        boolean IsSave = this.save(user);
+        if (IsSave != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else {
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+
     }
 }

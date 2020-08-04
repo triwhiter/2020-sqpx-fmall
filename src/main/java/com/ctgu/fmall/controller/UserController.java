@@ -38,4 +38,22 @@ public class UserController {
         return userService.editUser(user);
     }
 
+    @GetMapping("/getAllUserInfo/{page}/{size}")
+    @ApiOperation("获取全部用户信息")
+    public Result getAllUserInfo(@PathVariable("page") int page,
+                                 @PathVariable("size") int size){
+        return userService.getAllUserInfo(page,size);
+    }
+
+    @DeleteMapping("/del/{uid}")
+    @ApiOperation("根据用户id删除用户")
+    public Result delUserById(@PathVariable("uid") int uid){
+        return userService.delUserById(uid);
+    }
+
+    @PostMapping("/addUser")
+    @ApiOperation("添加用户")
+    public Result addUser(@RequestBody User user){
+        return userService.addUser(user);
+    }
 }

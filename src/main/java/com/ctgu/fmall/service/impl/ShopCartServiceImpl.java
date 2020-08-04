@@ -5,6 +5,7 @@ import com.ctgu.fmall.entity.ShopCart;
 import com.ctgu.fmall.mapper.ShopCartMapper;
 import com.ctgu.fmall.service.ShopCartService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ctgu.fmall.utils.CommonUtil;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,18 @@ public class ShopCartServiceImpl extends ServiceImpl<ShopCartMapper, ShopCart> i
         }else{
             return ResultUtil.success(ResultEnum.SUCCESS);
         }
+    }
+
+    @Override
+    public Result addShopCart(ShopCart shopCart) {
+        shopCart.setUid(CommonUtil.getCurrentUser().getId());
+        boolean IsSave = this.save(shopCart);
+        if (IsSave != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else {
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+
     }
 
 
