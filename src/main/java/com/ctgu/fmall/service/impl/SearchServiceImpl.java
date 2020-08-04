@@ -149,7 +149,7 @@ public class SearchServiceImpl implements SearchService {
         sourceBuilder.size(pageSize);
 
         //排序规则
-        sourceBuilder.sort("saleNum", SortOrder.DESC);
+     sourceBuilder.sort("saleNum", SortOrder.DESC);
         sourceBuilder.sort("collectNum",SortOrder.DESC);
         sourceBuilder.sort("id", SortOrder.ASC);
         sourceBuilder.sort("createTime",SortOrder.DESC);

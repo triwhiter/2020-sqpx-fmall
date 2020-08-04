@@ -52,7 +52,7 @@ public class ProductControllerTest extends TestCase {
     ProductImageService productImageService;
 
     /**
-     * 初始化ES的索引
+     * 初始化ES的索引，默认使用Standard分词器
      * @throws IOException
      */
     @Test
@@ -60,7 +60,7 @@ public class ProductControllerTest extends TestCase {
         List<Product>productList=productService.list(null);
         if(productList.size()!=0){
             BulkRequest bulkRequest = new BulkRequest();
-            bulkRequest.timeout("60s");
+            bulkRequest.timeout("120s");
             for(Product p:productList){
                 log.info(p.toString());
                 QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
@@ -68,7 +68,8 @@ public class ProductControllerTest extends TestCase {
                 List<ProductImage> productImages=productImageService.list(imageQueryWrapper);
                 if(productImages.size()>0){
                     IndexRequest indexRequest=new IndexRequest(ElasticSearchConfig.INDEX_NAME).source(JSON.toJSONString(p), XContentType.JSON);
-                    indexRequest.setIfPrimaryTerm(1);
+                    indexRequest.id(p.getId().toString());
+//                    indexRequest.setIfPrimaryTerm(1);
                     bulkRequest.add(indexRequest);
                 }
             }

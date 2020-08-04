@@ -92,7 +92,7 @@ public class ProductController {
 
     @GetMapping("/search/{keyword}/{pageNo}/{pageSize}/{cid}")
     public Result search(@PathVariable String keyword,@PathVariable int pageNo, @PathVariable int pageSize, @PathVariable int cid) throws IOException {
-        log.info("搜索词：页码：{}，页数：{},分类ID：{}",keyword,pageNo,pageSize,cid);
+        log.info("搜索词：{}，页码：{}，页数：{},分类ID：{}",keyword,pageNo,pageSize,cid);
         HashMap map =searchService.searchProduct(keyword,pageNo,pageSize,cid);
         log.info("搜索情况："+map);
         return ResultUtil.success(map);
