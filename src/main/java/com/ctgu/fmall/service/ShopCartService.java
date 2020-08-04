@@ -20,4 +20,6 @@ public interface ShopCartService extends IService<ShopCart> {
     Result delShopCartById(int uid, int pid);
 
     Result delAllShopCart(int uid);
+
+    Result addShopCart(ShopCart shopCart);
 }
