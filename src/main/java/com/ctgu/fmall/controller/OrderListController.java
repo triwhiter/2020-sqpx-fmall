@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/orderList")
 public class OrderListController {
-
     @Autowired
     private OrderListService orderListService;
 
