@@ -10,6 +10,8 @@ import com.ctgu.fmall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -28,5 +30,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }else{
             return ResultUtil.success(ResultEnum.SUCCESS);
         }
+    }
+
+    @Override
+    public Result getAllUserInfo() {
+        List<User> list = this.list(null);
+        if(list != null){
+            return ResultUtil.success(list);
+        }else {
+            return ResultUtil.error(ResultEnum.FAIL);
+        }
+    }
+
+    @Override
+    public Result delUserById(int uid) {
+        boolean IsRemove = this.removeById(uid);
+        if(IsRemove != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else{
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+
+    }
+
+    @Override
+    public Result addUser(User user) {
+        boolean IsSave = this.save(user);
+        if (IsSave != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else {
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+
     }
 }
