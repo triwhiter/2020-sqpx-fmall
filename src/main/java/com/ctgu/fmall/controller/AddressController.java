@@ -61,7 +61,7 @@ public class AddressController {
     }
 
     @DeleteMapping("/del/{id}")
-    @ApiOperation("更加地址Id删除地址")
+    @ApiOperation("根据地址Id删除地址")
     public Result delAddress(@PathVariable("id") int id){
         return addressService.delAddress(id);
     }

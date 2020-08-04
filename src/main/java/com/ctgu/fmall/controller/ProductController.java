@@ -106,7 +106,18 @@ public class ProductController {
             QueryWrapper<Product> wrapper = new QueryWrapper<>();
             wrapper.eq("cid",c.getId());
             List<Product> plist= productService.list(wrapper);
-            CProductDTO cProductDTO = new CProductDTO(c.getName(),plist);
+            List<ProductVO> productVOS=new ArrayList<>();
+            for (Product p: plist ) {
+                QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
+                imageQueryWrapper.eq("pid",p.getId());
+                List<ProductImage> productImages= productImageService.list(imageQueryWrapper);
+                if(productImages.size()>0){
+                    String imgUrl=productImages.get(0).getImgUrl();
+                    ProductVO productVO = new ProductVO(p,imgUrl);
+                    productVOS.add(productVO);
+                }
+            }
+            CProductDTO cProductDTO = new CProductDTO(c.getName(),productVOS);
 
             list.add(cProductDTO);
         }
@@ -116,20 +127,43 @@ public class ProductController {
     @GetMapping("/top5")
     @ApiOperation("月销排名前5的商品")
     public Result listTop5(){
-        QueryWrapper<Product> wrapper =new QueryWrapper<Product>();
+        QueryWrapper<Product> wrapper =new QueryWrapper<>();
         wrapper.orderByDesc("sale_num")
                 .last("limit 5");
-        List<Product> list=  productService.list(wrapper);
-        return ResultUtil.success(list);
+        List<Product> plist=  productService.list(wrapper);
+        List<ProductVO> productVOS=new ArrayList<>();
+        for (Product p: plist ) {
+            QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
+            imageQueryWrapper.eq("pid",p.getId());
+            List<ProductImage> productImages= productImageService.list(imageQueryWrapper);
+            if(productImages.size()>0){
+                String imgUrl=productImages.get(0).getImgUrl();
+                ProductVO productVO = new ProductVO(p,imgUrl);
+                productVOS.add(productVO);
+            }
+        }
+        return ResultUtil.success(productVOS);
     }
 
-    @GetMapping("/{pid]")
+    @GetMapping("/{id}")
     @ApiOperation("通过商品编号获得商品详情")
-    public Result getProductByid(@PathVariable int pid){
-        QueryWrapper<Product> wrapper=new QueryWrapper<Product>();
-        wrapper.eq("pid",pid);
+    public Result getProductByid(@PathVariable int id){
+        QueryWrapper<Product> wrapper=new QueryWrapper<>();
+        wrapper.eq("id",id);
         Product product = productService.getOne(wrapper);
-        return ResultUtil.success(product);
+        QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
+        imageQueryWrapper.eq("pid",product.getId());
+        List<ProductImage> productImages= productImageService.list(imageQueryWrapper);
+        if(productImages.size()>0) {
+            String imgUrl = productImages.get(0).getImgUrl();
+
+            ProductVO productVO = new ProductVO(product, imgUrl);
+            return ResultUtil.success(productVO);
+        }else {
+            ProductVO productVO = new ProductVO(product, null);
+            return ResultUtil.success(productVO);
+        }
+
     }
 }
 

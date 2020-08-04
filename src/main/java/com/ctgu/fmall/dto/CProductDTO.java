@@ -1,6 +1,7 @@
 package com.ctgu.fmall.dto;
 
 import com.ctgu.fmall.entity.Product;
+import com.ctgu.fmall.vo.ProductVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,5 +21,5 @@ public class CProductDTO {
 
     private String cname;
 
-    private List<Product> products;
+    private List<ProductVO> products;
 }

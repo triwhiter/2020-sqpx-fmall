@@ -34,11 +34,11 @@ public class CommentController {
         return ResultUtil.success(commentService.list(null).size());
     }
 
-    @GetMapping("/{uid}")
+    @GetMapping("/{pid}")
     @ApiOperation("获取一个评论")
-    public Result getOneComment(@PathVariable("uid") int uid){
+    public Result getOneComment(@PathVariable("pid") int pid){
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-        wrapper.eq("uid",uid);
+        wrapper.eq("pid",pid);
         List<Comment> comments =commentService.list(wrapper);
         return ResultUtil.success("查找成功",comments);
     }

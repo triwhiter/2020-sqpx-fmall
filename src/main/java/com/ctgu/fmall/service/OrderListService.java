@@ -15,4 +15,6 @@ import com.ctgu.fmall.vo.Result;
 public interface OrderListService extends IService<OrderList> {
 
     Result getOrderListInfoByUid(int uid);
+
+    Result getOrderInfoPage(int uid, int page, int num);
 }
