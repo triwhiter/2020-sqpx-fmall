@@ -1,12 +1,16 @@
 package com.ctgu.fmall.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ctgu.fmall.dto.OrderDTO;
 import com.ctgu.fmall.entity.OrderDetail;
 import com.ctgu.fmall.entity.OrderList;
+import com.ctgu.fmall.entity.ShopCart;
+import com.ctgu.fmall.entity.User;
 import com.ctgu.fmall.service.OrderDetailService;
 import com.ctgu.fmall.service.OrderListService;
 import com.ctgu.fmall.service.ShopCartService;
+import com.ctgu.fmall.utils.CommonUtil;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
@@ -48,6 +52,7 @@ public class OrderListController {
     @Transactional
     public Result add(@RequestBody @Valid OrderDTO orderDTO){
         OrderList orderList=new OrderList(orderDTO);
+        User user= CommonUtil.getCurrentUser();
         try{
         orderListService.save(orderList);
         for(int i=0;i <orderDTO.getPids().size();i++){
@@ -56,9 +61,13 @@ public class OrderListController {
             detail.setPid(orderDTO.getPids().get(i));
             detail.setOid(orderList.getId());
             orderDetailService.save(detail);
-            shopCartService.removeById(orderDTO.getPids().get(i));
+            QueryWrapper<ShopCart> wrapper = new QueryWrapper<>();
+            wrapper.eq("pid",orderDTO.getPids().get(i));
+            wrapper.eq("uid",user.getId());
+            shopCartService.remove(wrapper);
         }
-        return ResultUtil.success();
+
+            return ResultUtil.success();
         }catch (Exception e){
             return ResultUtil.error(e.getMessage());
         }
