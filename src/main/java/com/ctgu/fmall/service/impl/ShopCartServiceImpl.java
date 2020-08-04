@@ -36,4 +36,26 @@ public class ShopCartServiceImpl extends ServiceImpl<ShopCartMapper, ShopCart> i
             return ResultUtil.error(ResultEnum.FAIL);
         }
     }
+
+    @Override
+    public Result delShopCartById(int uid, int pid) {
+        boolean IsDel = shopCartMapper.delShopCartById(uid, pid);
+        if (IsDel != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else{
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+    }
+
+    @Override
+    public Result delAllShopCart(int uid) {
+        boolean IsDel = shopCartMapper.delAllShopCart(uid);
+        if (IsDel != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else{
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+    }
+
+
 }

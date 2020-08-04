@@ -31,5 +31,13 @@ public class OrderListController {
     public Result getOrderListInfoByUid(@PathVariable("uid") int uid){
         return orderListService.getOrderListInfoByUid(uid);
     }
+
+    @GetMapping("getOrderInfoPage/{uid}/{page}/{num}")
+    @ApiOperation("获取当前用户订单，实现分页")
+    public Result getOrderInfoPage(@PathVariable("uid") int uid,
+                                   @PathVariable("page") int page,
+                                   @PathVariable("num") int num){
+        return orderListService.getOrderInfoPage(uid,page,num);
+    }
 }
 

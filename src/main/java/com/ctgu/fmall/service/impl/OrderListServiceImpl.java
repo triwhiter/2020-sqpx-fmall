@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,20 @@ public class OrderListServiceImpl extends ServiceImpl<OrderListMapper, OrderList
         if(orderListInfo != null){
             return ResultUtil.success(orderListInfo);
             //return new Result(200,"获取数据成功",orderListInfo);
+        }else{
+            return ResultUtil.error(ResultEnum.FAIL);
+        }
+    }
+
+    @Override
+    public Result getOrderInfoPage(int uid, int page, int num) {
+        List<Map> orderListInfo = orderListMapper.getOrderListInfoByUid(uid);
+        List<Map> res = new ArrayList<>();
+        for (int i = (page - 1 ) * num; i < page * num ; i++) {
+            res.add(orderListInfo.get(i));
+        }
+        if (res.size() != 0){
+            return ResultUtil.success(res);
         }else{
             return ResultUtil.error(ResultEnum.FAIL);
         }
