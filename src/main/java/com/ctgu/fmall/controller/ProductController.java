@@ -97,7 +97,7 @@ public class ProductController {
     }
 
 
-    @PostMapping("/allinCate")
+    @GetMapping("/allinCate")
     @ApiOperation("获取所有目录以及目录下面的所有商品")
     public Result getAllPInC(){
         List<Category> clist = categoryService.list(null);
