@@ -19,6 +19,10 @@ import java.util.Map;
 @Repository
 public interface OrderListMapper extends BaseMapper<OrderList> {
 
-    @Select("SELECT order_list.*,order_detail.*,product.*,user.* from order_list, order_detail, user, product where order_list.uid = #{uid} and order_list.id = order_detail.oid and order_list.uid = user.id and order_detail.pid = product.id;")
+    @Select("SELECT order_list.*,order_detail.*,product.*,user.* , product_image.* " +
+            "from order_list, order_detail, user, product, product_image where " +
+            "order_list.uid = #{uid} and order_list.id = order_detail.oid " +
+            "and order_list.uid = user.id and order_detail.pid = product.id " +
+            "and product.id = product_image.pid ;")
     List<Map> getOrderListInfoByUid(int uid);
 }
