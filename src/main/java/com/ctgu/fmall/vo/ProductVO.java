@@ -19,19 +19,27 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductVO {
     private int productId;
+    private int cid;
     private  float price;
+    private  float promotePrice;
     private String shopName;
+    private Integer stock;
     private int saleNum;
+    private int collectNum;
     private String  intro;
     private String imgUrl;
 
 
    public ProductVO(Product product,String imgUrl){
         this.productId=product.getId();
+        this.cid=product.getCid();
         this.imgUrl=imgUrl;
         this.intro=product.getName();
         this.saleNum=product.getSaleNum();
+        this.collectNum=product.getCollectNum();
         this.price=product.getOriginalPrice();
+        this.promotePrice=product.getPromotePrice();
         this.shopName=product.getStore();
+        this.stock=product.getStock();
     }
 }
