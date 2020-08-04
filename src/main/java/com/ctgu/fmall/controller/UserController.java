@@ -38,10 +38,11 @@ public class UserController {
         return userService.editUser(user);
     }
 
-    @GetMapping("/getAllUserInfo")
+    @GetMapping("/getAllUserInfo/{page}/{size}")
     @ApiOperation("获取全部用户信息")
-    public Result getAllUserInfo(){
-        return userService.getAllUserInfo();
+    public Result getAllUserInfo(@PathVariable("page") int page,
+                                 @PathVariable("size") int size){
+        return userService.getAllUserInfo(page,size);
     }
 
     @DeleteMapping("/del/{uid}")

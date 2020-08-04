@@ -1,5 +1,7 @@
 package com.ctgu.fmall.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ctgu.fmall.common.ResultEnum;
 import com.ctgu.fmall.entity.User;
 import com.ctgu.fmall.mapper.UserMapper;
@@ -33,10 +35,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Result getAllUserInfo() {
-        List<User> list = this.list(null);
-        if(list != null){
-            return ResultUtil.success(list);
+    public Result getAllUserInfo(int page, int size) {
+        IPage<User> userInfoPages = this.page(new Page<>(page, size), null);
+        if(userInfoPages != null){
+            return ResultUtil.success(userInfoPages);
         }else {
             return ResultUtil.error(ResultEnum.FAIL);
         }

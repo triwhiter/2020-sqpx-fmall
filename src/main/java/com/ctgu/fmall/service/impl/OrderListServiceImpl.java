@@ -57,4 +57,45 @@ public class OrderListServiceImpl extends ServiceImpl<OrderListMapper, OrderList
         }
     }
 
+    @Override
+    public Result getAllOrderInfo(int page, int size) {
+        IPage<OrderList> userInfoPages = this.page(new Page<>(page, size), null);
+        if (userInfoPages != null){
+            return ResultUtil.success(userInfoPages);
+        }else {
+            return ResultUtil.error(ResultEnum.FAIL);
+        }
+    }
+
+    @Override
+    public Result delOrder(int id) {
+        boolean IsRemove = this.removeById(id);
+        if (IsRemove != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else {
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+
+    }
+
+    @Override
+    public Result addOrder(OrderList orderList) {
+        boolean IsSave = this.save(orderList);
+        if (IsSave != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else {
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+    }
+
+    @Override
+    public Result editOrder(OrderList orderList) {
+        boolean IsUpdate = this.updateById(orderList);
+        if (IsUpdate != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else {
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+    }
+
 }

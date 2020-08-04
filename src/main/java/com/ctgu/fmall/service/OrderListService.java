@@ -17,4 +17,12 @@ public interface OrderListService extends IService<OrderList> {
     Result getOrderListInfoByUid(int uid);
 
     Result getOrderInfoPage(int uid, int page, int num);
+
+    Result getAllOrderInfo(int page, int size);
+
+    Result delOrder(int id);
+
+    Result addOrder(OrderList orderList);
+
+    Result editOrder(OrderList orderList);
 }
