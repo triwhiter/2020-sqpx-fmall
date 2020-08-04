@@ -1,14 +1,20 @@
 package com.ctgu.fmall.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ctgu.fmall.dto.OrderDTO;
 import com.ctgu.fmall.entity.OrderDetail;
 import com.ctgu.fmall.entity.OrderList;
+import com.ctgu.fmall.entity.ShopCart;
+import com.ctgu.fmall.entity.User;
 import com.ctgu.fmall.service.OrderDetailService;
 import com.ctgu.fmall.service.OrderListService;
+import com.ctgu.fmall.service.ShopCartService;
+import com.ctgu.fmall.utils.CommonUtil;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +31,7 @@ import javax.validation.Valid;
  * @since 2020-08-02
  */
 @RestController
+@Slf4j
 @RequestMapping("/orderList")
 public class OrderListController {
 
@@ -33,6 +40,9 @@ public class OrderListController {
 
     @Autowired
     OrderDetailService orderDetailService;
+
+    @Autowired
+    ShopCartService shopCartService;
 
     @GetMapping("/getOrderInfo/{uid}")
     @ApiOperation("获取用户订单")
@@ -78,6 +88,7 @@ public class OrderListController {
     @Transactional
     public Result add(@RequestBody @Valid OrderDTO orderDTO){
         OrderList orderList=new OrderList(orderDTO);
+        User user= CommonUtil.getCurrentUser();
         try{
         orderListService.save(orderList);
         for(int i=0;i <orderDTO.getPids().size();i++){
@@ -86,10 +97,15 @@ public class OrderListController {
             detail.setPid(orderDTO.getPids().get(i));
             detail.setOid(orderList.getId());
             orderDetailService.save(detail);
+            QueryWrapper<ShopCart> wrapper = new QueryWrapper<>();
+            wrapper.eq("pid",orderDTO.getPids().get(i));
+            wrapper.eq("uid",user.getId());
+            shopCartService.remove(wrapper);
         }
-        return ResultUtil.success();
+           return ResultUtil.success("订单已保存，请尽快付款");
         }catch (Exception e){
-            return ResultUtil.error(e.getMessage());
+            log.error(e.getMessage());
+            return ResultUtil.error("购买失败，请重试");
         }
     }
 

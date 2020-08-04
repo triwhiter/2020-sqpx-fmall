@@ -9,10 +9,13 @@ import java.io.Serializable;
 
 import com.ctgu.fmall.dto.OrderDTO;
 import com.ctgu.fmall.utils.CommonUtil;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
@@ -27,6 +30,8 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="OrderList对象", description="")
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderList implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,14 +56,15 @@ public class OrderList implements Serializable {
     private String status;
 
     @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     @ApiModelProperty(value = "修改时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
-    
     public OrderList(OrderDTO orderDTO){
         User user= CommonUtil.getCurrentUser();
         this.aid=orderDTO.getAid();
