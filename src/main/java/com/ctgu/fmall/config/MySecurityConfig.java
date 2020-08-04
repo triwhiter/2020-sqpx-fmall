@@ -82,10 +82,10 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         //and().csrf().disable()：固定写法，表示csrf拦截失效
 
         http.authorizeRequests()
-//                .mvcMatchers("/api/*").hasRole("ADMIN")
-//                .mvcMatchers("/api/user/*").access("hasRole('ADMIN')")
-//                .mvcMatchers("/user/**").hasAnyRole("ADMIN","ROOT")
-//                .mvcMatchers("/user/**").denyAll()
+////                .mvcMatchers("/api/*").hasRole("ADMIN")
+////                .mvcMatchers("/api/user/*").access("hasRole('ADMIN')")
+////                .mvcMatchers("/user/**").hasAnyRole("ADMIN","ROOT")
+////                .mvcMatchers("/user/**").denyAll()
                 .mvcMatchers("/**").permitAll().anyRequest().authenticated()
                 .anyRequest().permitAll();
 //                .authenticated();
@@ -219,9 +219,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-ui.html/**",
                 "/webjars/**");
 
-    web.ignoring()
-            .antMatchers("/css/**","/js/**","/index.html","/img/**","/fonts/**","/favicon.ico","/verifyCode");
-}
+        web.ignoring()
+                .antMatchers("/css/**","/js/**","/index.html","/img/**","/fonts/**","/favicon.ico");
+    }
 
 
 }
