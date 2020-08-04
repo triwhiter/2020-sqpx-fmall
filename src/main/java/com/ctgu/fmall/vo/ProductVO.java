@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductVO {
-    private int productId;
+    private long productId;
     private  float price;
     private String shopName;
     private int saleNum;

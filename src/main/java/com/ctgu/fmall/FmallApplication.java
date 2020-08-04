@@ -15,7 +15,8 @@ public class FmallApplication {
     public static void main(String[] args) {
         SpringApplication.run(FmallApplication.class, args);
         System.out.println("http://localhost:8088/api/swagger-ui.html");
-        // main中加下面这一句
+        // main中加下面这一句,Es和Redis不能同时启动
+        System.setProperty("es.set.netty.runtime.available.processors", "false");
     }
 
 }

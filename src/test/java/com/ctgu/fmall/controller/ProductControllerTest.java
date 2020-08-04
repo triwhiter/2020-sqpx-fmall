@@ -2,17 +2,14 @@ package com.ctgu.fmall.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ctgu.fmall.config.ElasticSearchConfig;
 import com.ctgu.fmall.entity.Product;
 import com.ctgu.fmall.entity.ProductImage;
 import com.ctgu.fmall.service.ProductImageService;
 import com.ctgu.fmall.service.ProductService;
-import com.ctgu.fmall.utils.ResultUtil;
-import com.ctgu.fmall.vo.ProductVO;
 import junit.framework.TestCase;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomUtils;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -24,12 +21,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @Auther: yanghao
@@ -68,7 +65,7 @@ public class ProductControllerTest extends TestCase {
                 List<ProductImage> productImages=productImageService.list(imageQueryWrapper);
                 if(productImages.size()>0){
                     IndexRequest indexRequest=new IndexRequest(ElasticSearchConfig.INDEX_NAME).source(JSON.toJSONString(p), XContentType.JSON);
-                    indexRequest.id(p.getId().toString());
+                    indexRequest.id(String.valueOf(p.getId()));
 //                    indexRequest.setIfPrimaryTerm(1);
                     bulkRequest.add(indexRequest);
                 }
@@ -77,5 +74,28 @@ public class ProductControllerTest extends TestCase {
             log.info("索引是否初始化成功："+!bulk.hasFailures());
         }
     }
+/*
+
+    @Test
+    @Transactional
+    public void resizeID(){
+       List<Product> products=productService.list(null);
+       products.forEach(p->{
+           if(p.getId()>1147483647){
+               log.info(p.toString());
+               long smallPid=p.getId();
+               QueryWrapper<ProductImage> wrapper = new QueryWrapper<>();
+               wrapper.eq("pid",p.getId());
+               List<ProductImage> productImages=productImageService.list(wrapper);
+               log.info(productImages.toString());
+               while (smallPid>1147483647){
+                   Random rand = new Random();
+                   smallPid=smallPid/ (rand.nextInt(20)+20);
+                   log.info("缩小ID"+String.valueOf(smallPid));
+               }
+           }
+       });
+    }
+*/
 
 }
