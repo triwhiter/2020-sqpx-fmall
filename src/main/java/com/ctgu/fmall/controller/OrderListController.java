@@ -14,6 +14,7 @@ import com.ctgu.fmall.utils.CommonUtil;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,7 @@ import javax.validation.Valid;
  * @since 2020-08-02
  */
 @RestController
+@Slf4j
 @RequestMapping("/orderList")
 public class OrderListController {
 
@@ -66,10 +68,10 @@ public class OrderListController {
             wrapper.eq("uid",user.getId());
             shopCartService.remove(wrapper);
         }
-
-            return ResultUtil.success();
+           return ResultUtil.success("订单已保存，请尽快付款");
         }catch (Exception e){
-            return ResultUtil.error(e.getMessage());
+            log.error(e.getMessage());
+            return ResultUtil.error("购买失败，请重试");
         }
     }
 

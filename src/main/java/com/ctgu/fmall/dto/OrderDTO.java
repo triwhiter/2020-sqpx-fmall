@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -21,12 +22,12 @@ import java.util.List;
 public class OrderDTO {
     @Length(max = 100,message = "留言内容不能多于100字")
     private String message;
-    @NotBlank(message = "收货地址不能为空")
+    @NotNull(message = "收货地址不能为空")
     private Integer aid;
-    @NotBlank(message = "商品ID不能为空")
+    @NotNull(message = "商品ID不能为空")
     private List<Integer> pids;
-    @NotBlank(message = "商品数量不能为空")
+    @NotNull(message = "商品数量不能为空")
     private List<Integer> nums;
-    @NotBlank(message = "商品总价不能为空")
+    @NotNull(message = "商品总价不能为空")
     private float amount;
 }

@@ -47,7 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //            authorities.add(new JaasGrantedAuthority("ROLE_ADMIN"));
 //            MyUserDetails user = new MyUserDetails(dbUser,dbUser.getEmail(),dbUser.getPassword(),authorities);
             User user = new User(dbUser.getId().toString(),dbUser.getPassword(),authorities);
-            log.warn("当前认证用户："+user.toString());
+            log.warn("当前认证用户："+dbUser);
 //            MyUserDetails user = new User(dbUser.getEmail(),passwordEncoder.encode(dbUser.getPassword()),authorities,db);
 //            System.out.println("管理员信息："+user.getUser().getUsername()+"   "+passwordEncoder.encode(dbUser.getPassword())+"  "+user.getAuthorities());
             return user;
