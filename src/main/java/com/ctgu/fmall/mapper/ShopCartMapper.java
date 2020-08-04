@@ -20,6 +20,6 @@ import java.util.Map;
 public interface ShopCartMapper extends BaseMapper<ShopCart> {
 
     @Select("select product.*, product_image.*, shop_cart.* from product, product_image, shop_cart where" +
-            " shop_cart.uid = #{uid} and product.id = shop_cart.pid and product.id = product_image.pid;")
+            " shop_cart.uid = #{uid} and product.id = shop_cart.pid and product.id = product_image.pid group by product_image.pid;")
     List<Map> getShopCartInfo(int uid);
 }
