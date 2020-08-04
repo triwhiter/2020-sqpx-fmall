@@ -6,6 +6,7 @@ import com.ctgu.fmall.entity.OrderDetail;
 import com.ctgu.fmall.entity.OrderList;
 import com.ctgu.fmall.service.OrderDetailService;
 import com.ctgu.fmall.service.OrderListService;
+import com.ctgu.fmall.service.ShopCartService;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +34,9 @@ public class OrderListController {
     @Autowired
     OrderDetailService orderDetailService;
 
+    @Autowired
+    ShopCartService shopCartService;
+
     @GetMapping("/getOrderInfo/{uid}")
     @ApiOperation("获取用户订单")
     public Result getOrderListInfoByUid(@PathVariable("uid") int uid){
@@ -52,6 +56,7 @@ public class OrderListController {
             detail.setPid(orderDTO.getPids().get(i));
             detail.setOid(orderList.getId());
             orderDetailService.save(detail);
+            shopCartService.removeById(orderDTO.getPids().get(i));
         }
         return ResultUtil.success();
         }catch (Exception e){
