@@ -2,6 +2,7 @@ package com.ctgu.fmall.mapper;
 
 import com.ctgu.fmall.entity.ShopCart;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +24,10 @@ public interface ShopCartMapper extends BaseMapper<ShopCart> {
             " from product, product_image, shop_cart where " +
             "shop_cart.uid = #{uid} and product.id = shop_cart.pid and product.id = product_image.pid group by product_image.pid;")
     List<Map> getShopCartInfo(int uid);
+
+    @Delete("delete from shop_cart where uid = #{uid} and pid = #{pid}")
+    boolean delShopCartById(int uid, int pid);
+
+    @Delete("delete from shop_cart where uid = #{uid}")
+    boolean delAllShopCart(int uid);
 }

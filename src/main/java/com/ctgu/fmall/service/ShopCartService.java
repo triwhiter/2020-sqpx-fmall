@@ -15,4 +15,9 @@ import com.ctgu.fmall.vo.Result;
 public interface ShopCartService extends IService<ShopCart> {
 
     Result getShopCartInfo(int uid);
+
+
+    Result delShopCartById(int uid, int pid);
+
+    Result delAllShopCart(int uid);
 }
