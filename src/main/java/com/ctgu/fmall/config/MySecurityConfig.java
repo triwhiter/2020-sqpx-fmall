@@ -82,10 +82,11 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         //and().csrf().disable()：固定写法，表示csrf拦截失效
 
         http.authorizeRequests()
-//                .mvcMatchers("/api/*").hasRole("ADMIN")
-//                .mvcMatchers("/api/user/*").access("hasRole('ADMIN')")
-//                .mvcMatchers("/user/**").hasAnyRole("ADMIN","ROOT")
-//                .mvcMatchers("/user/**").denyAll()
+        .mvcMatchers("/user/**","/shopCart/**","/orderList/**","/address/**")
+                .hasAnyRole("USER","ADMIN")
+////                .mvcMatchers("/api/user/*").access("hasRole('ADMIN')")
+////                .mvcMatchers("/user/**").hasAnyRole("ADMIN","ROOT")
+////                .mvcMatchers("/user/**").denyAll()
                 .mvcMatchers("/**").permitAll().anyRequest().authenticated()
                 .anyRequest().permitAll();
 //                .authenticated();
@@ -96,19 +97,18 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();*/
         http.authorizeRequests()
                 .anyRequest()
-                .authenticated()
+                .authenticated()//所有请求都需要登录认证才能访问
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/api/login")
                 .loginPage("/login")
                 .permitAll()
-                .and()
-                .httpBasic()
+              /*  .and()
+                .httpBasic()//开启httpbasic认证*/
                 .and()
                 .cors()
                 .configurationSource(corsConfigurationSource())
                 .and().csrf().disable();
-
 
 
         //退出时返回Json数据
@@ -219,9 +219,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-ui.html/**",
                 "/webjars/**");
 
-    web.ignoring()
-            .antMatchers("/css/**","/js/**","/index.html","/img/**","/fonts/**","/favicon.ico","/verifyCode");
-}
+        web.ignoring()
+                .antMatchers("/css/**","/js/**","/index.html","/img/**","/fonts/**","/favicon.ico");
+    }
 
 
 }
