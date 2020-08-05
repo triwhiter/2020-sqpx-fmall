@@ -23,6 +23,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -52,6 +53,12 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    //实现单点登录
+    @Bean
+    HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 
     @Bean
@@ -108,7 +115,10 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors()
                 .configurationSource(corsConfigurationSource())
-                .and().csrf().disable();
+                .and().csrf().disable()
+                .sessionManagement()//配置单点登录
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true);
 
 
         //退出时返回Json数据
