@@ -28,8 +28,7 @@ public class UserController {
     @GetMapping("/getUserInfo")
     @ApiOperation("获取当前用户")
     public Result getUserInfo(){
-        CommonUtil.getCurrentUser();
-        return ResultUtil.success();
+        return ResultUtil.success(CommonUtil.getCurrentUser());
     }
 
     @PutMapping("/editUser")
