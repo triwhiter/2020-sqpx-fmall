@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,11 +14,11 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zhen
- * @since 2020-08-02
+ * @since 2020-08-05
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -34,7 +32,7 @@ public class User implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "会员等级,默认等级为1")
+    @ApiModelProperty(value = "会员等级,默认等级为1 ")
     private Integer level;
 
     @ApiModelProperty(value = "邮箱")
@@ -61,12 +59,16 @@ public class User implements Serializable {
     @ApiModelProperty(value = "头像,默认头像url")
     private String avatar;
 
+    @ApiModelProperty(value = "逻辑删除，0为删除，1为存在")
+    private Integer deleted;
+
     @ApiModelProperty(value = "创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
     @ApiModelProperty(value = "修改时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;}
+    private Date updateTime;
+
+
+}
