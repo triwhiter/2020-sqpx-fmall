@@ -82,7 +82,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         //and().csrf().disable()：固定写法，表示csrf拦截失效
 
         http.authorizeRequests()
-////                .mvcMatchers("/api/*").hasRole("ADMIN")
+        .mvcMatchers("/user/**","/shopCart/**","/orderList/**","/address/**")
+                .hasAnyRole("USER","ADMIN")
 ////                .mvcMatchers("/api/user/*").access("hasRole('ADMIN')")
 ////                .mvcMatchers("/user/**").hasAnyRole("ADMIN","ROOT")
 ////                .mvcMatchers("/user/**").denyAll()
