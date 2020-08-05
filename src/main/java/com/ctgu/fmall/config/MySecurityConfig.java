@@ -107,8 +107,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         .mvcMatchers("/user/**","/shopCart/**","/orderList/**","/address/**")
                 .hasAnyRole("USER","ADMIN","SUPER_ADMIN")
-////                .mvcMatchers("/api/user/*").access("hasRole('ADMIN')")
-////                .mvcMatchers("/user/**").hasAnyRole("ADMIN","ROOT")
+//        .mvcMatchers("/api/admin/*").access("hasRole('ADMIN')")
+                .mvcMatchers("/admin/**").hasAnyRole("ADMIN","SUPER_ADMIN")
 ////                .mvcMatchers("/user/**").denyAll()
                 .mvcMatchers("/**").permitAll().anyRequest().authenticated()
                 .anyRequest().permitAll();

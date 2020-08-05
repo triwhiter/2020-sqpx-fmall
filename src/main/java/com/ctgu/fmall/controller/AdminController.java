@@ -42,5 +42,10 @@ public class AdminController {
         }
         return ResultUtil.success("登录成功",admin);
     }
+
+    @GetMapping("")
+    public String test(){
+        return "你好管理员";
+    }
 }
 
