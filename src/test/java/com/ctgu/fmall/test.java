@@ -1,6 +1,6 @@
 package com.ctgu.fmall;
 
-import com.ctgu.fmall.common.ResultEnum;
+import com.ctgu.fmall.common.eums.ResultEnum;
 
 /**
  * @Author: xuzhen

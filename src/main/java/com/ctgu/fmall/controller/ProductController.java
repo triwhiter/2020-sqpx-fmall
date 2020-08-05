@@ -76,8 +76,9 @@ public class ProductController {
             imageQueryWrapper.eq("pid",p.getId());
             List<ProductImage>productImages=productImageService.list(imageQueryWrapper);
             if(productImages.size()>0){
-                String imgUrl=productImages.get(0).getImgUrl();
-                ProductVO productVO = new ProductVO(p,imgUrl);
+                ArrayList<String> imgUrls = new ArrayList<>();
+                imgUrls.add(productImages.get(0).getImgUrl());
+                ProductVO productVO = new ProductVO(p,imgUrls);
                 productVOS.add(productVO);
             }
         }
@@ -117,8 +118,9 @@ public class ProductController {
                 imageQueryWrapper.eq("pid",p.getId());
                 List<ProductImage> productImages= productImageService.list(imageQueryWrapper);
                 if(productImages.size()>0){
-                    String imgUrl=productImages.get(0).getImgUrl();
-                    ProductVO productVO = new ProductVO(p,imgUrl);
+                    ArrayList<String> imgUrls = new ArrayList<>();
+                    imgUrls.add(productImages.get(0).getImgUrl());
+                    ProductVO productVO = new ProductVO(p,imgUrls);
                     productVOS.add(productVO);
                 }
             }
@@ -144,8 +146,10 @@ public class ProductController {
             imageQueryWrapper.eq("pid",p.getId());
             List<ProductImage> productImages= productImageService.list(imageQueryWrapper);
             if(productImages.size()>0){
-                String imgUrl=productImages.get(0).getImgUrl();
-                ProductVO productVO = new ProductVO(p,imgUrl);
+
+                ArrayList<String> imgUrls = new ArrayList<>();
+                imgUrls.add(productImages.get(0).getImgUrl());
+                ProductVO productVO = new ProductVO(p,imgUrls);
                 productVOS.add(productVO);
             }
         }
@@ -162,9 +166,9 @@ public class ProductController {
         imageQueryWrapper.eq("pid",product.getId());
         List<ProductImage> productImages= productImageService.list(imageQueryWrapper);
         if(productImages.size()>0) {
-            String imgUrl = productImages.get(0).getImgUrl();
-
-            ProductVO productVO = new ProductVO(product, imgUrl);
+            ArrayList<String> imgUrls = new ArrayList<>();
+            imgUrls.add(productImages.get(0).getImgUrl());
+            ProductVO productVO = new ProductVO(product, imgUrls);
             return ResultUtil.success(productVO);
         }else {
             ProductVO productVO = new ProductVO(product, null);
