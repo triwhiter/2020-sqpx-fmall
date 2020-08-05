@@ -25,4 +25,16 @@ public interface OrderListMapper extends BaseMapper<OrderList> {
             "ANY_VALUE(order_detail.number) as number " +
             "from order_list, order_detail, user, product, product_image where order_list.uid = #{uid} and order_list.id = order_detail.oid and order_list.uid = user.id and order_detail.pid = product.id and product.id = product_image.pid group by product_image.pid;")
     List<Map> getOrderListInfoByUid(int uid);
+
+    @Select("SELECT ANY_VALUE(order_list.id) as id,ANY_VALUE(order_list.amount) as amount, " +
+            "ANY_VALUE(order_list.`status`) as status,ANY_VALUE(order_list.create_time) as create_time, " +
+            "ANY_VALUE(order_list.user_message) as user_message, ANY_VALUE(order_list.update_time) as update_time, " +
+            "ANY_VALUE(order_list.uid) as uid,  ANY_VALUE(user.user_name) as user_name,  " +
+            "ANY_VALUE(user.phone_number) as phone_number, ANY_VALUE(address.area) as area, " +
+            "ANY_VALUE(address.receiver) as receiver,ANY_VALUE(address.street) as street " +
+            "from order_list, user, address where order_list.uid = user.id and order_list.aid = address.id;")
+    List<Map> getAllOrderInfo();
+
+    @Select("select product.* from product, order_list, order_detail where order_list.id = #{id} and order_list.id = order_detail.oid and order_detail.pid = product.id;")
+    List<Map> getProductInfoById(int id);
 }

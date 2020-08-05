@@ -1,18 +1,15 @@
 package com.ctgu.fmall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ctgu.fmall.common.ResultEnum;
+import com.ctgu.fmall.common.eums.ResultEnum;
 import com.ctgu.fmall.entity.Address;
 import com.ctgu.fmall.mapper.AddressMapper;
 import com.ctgu.fmall.service.AddressService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Wrapper;
 import java.util.List;
 
 /**

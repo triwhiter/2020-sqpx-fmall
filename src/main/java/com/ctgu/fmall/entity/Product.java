@@ -1,10 +1,8 @@
 package com.ctgu.fmall.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -53,9 +51,12 @@ public class Product implements Serializable {
     @ApiModelProperty(value = "收藏量")
     private Integer collectNum;
 
+    @ApiModelProperty(value = "逻辑删除，1为删除，0为存在")
+    @TableLogic
+    private Integer deleted;
+
     @ApiModelProperty(value = "月销量")
     private Integer saleNum;
-
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;

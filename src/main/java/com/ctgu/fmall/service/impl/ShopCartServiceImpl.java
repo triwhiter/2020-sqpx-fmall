@@ -1,6 +1,6 @@
 package com.ctgu.fmall.service.impl;
 
-import com.ctgu.fmall.common.ResultEnum;
+import com.ctgu.fmall.common.eums.ResultEnum;
 import com.ctgu.fmall.entity.ShopCart;
 import com.ctgu.fmall.mapper.ShopCartMapper;
 import com.ctgu.fmall.service.ShopCartService;

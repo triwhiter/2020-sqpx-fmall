@@ -2,17 +2,14 @@ package com.ctgu.fmall.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ctgu.fmall.common.ResultEnum;
+import com.ctgu.fmall.common.eums.ResultEnum;
 import com.ctgu.fmall.entity.User;
 import com.ctgu.fmall.mapper.UserMapper;
 import com.ctgu.fmall.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * <p>
