@@ -1,6 +1,8 @@
 package com.ctgu.fmall.common.security;
 
+import com.ctgu.fmall.entity.Admin;
 import com.ctgu.fmall.entity.User;
+import com.ctgu.fmall.service.AdminService;
 import com.ctgu.fmall.service.UserService;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
@@ -26,14 +28,25 @@ import java.io.PrintWriter;
  */
 @Component
 @Slf4j
-public class MyUserAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     @Autowired
     UserService userService;
+    @Autowired
+    AdminService adminService;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
-            User user = userService.getById(authentication.getName());
-            log.info("当前登录的用户："+user);
-            Result ok = ResultUtil.success("登录成功", user);
+        log.info("权限信息："+authentication);
+        Result ok;
+        if(authentication.getAuthorities().equals("ROLE_USER")){
+                User user = userService.getById(authentication.getName());
+                ok = ResultUtil.success("登录成功", user);
+                log.info("当前登录的普通用户："+user);
+            }
+            else {
+                Admin admin=adminService.getById(authentication.getName());
+                ok = ResultUtil.success("登录成功", admin);
+                log.info("当前登录的管理员："+admin);
+            }
             resp.setContentType("application/json;charset=utf-8");
             PrintWriter out = resp.getWriter();
             out.write(new ObjectMapper().writeValueAsString(ok));

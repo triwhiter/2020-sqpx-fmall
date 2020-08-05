@@ -3,6 +3,7 @@ package com.ctgu.fmall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
+import com.ctgu.fmall.entity.Admin;
 import com.ctgu.fmall.mapper.AdminMapper;
 import com.ctgu.fmall.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -34,21 +35,40 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails  loadUserByUsername(String username) throws UsernameNotFoundException {
+        //通过手机号同时查询用户表和管理员表
         QueryWrapper<com.ctgu.fmall.entity.User> wrapper = new QueryWrapper<>();
-        wrapper.eq("nick_name",username);
+        wrapper.eq("phone_number",username);
         com.ctgu.fmall.entity.User dbUser=userMapper.selectOne(wrapper);
+
+        QueryWrapper<Admin> adminQueryWrapper = new QueryWrapper<>();
+        adminQueryWrapper.eq("phone_number",username);
+        Admin dbAdmin=adminMapper.selectOne(adminQueryWrapper);
+
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        User user = null;
+        //既不是用户也不是管理员
         if(dbUser == null){
-            return null;
-        }else{
-            Collection<GrantedAuthority> authorities = new ArrayList<>();         
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-//            authorities.add(new JaasGrantedAuthority("ROLE_ADMIN"));
-//            MyUserDetails user = new MyUserDetails(dbUser,dbUser.getEmail(),dbUser.getPassword(),authorities);
-            User user = new User(dbUser.getId().toString(),dbUser.getPassword(),authorities);
-            log.warn("当前认证用户："+dbUser);
-//            MyUserDetails user = new User(dbUser.getEmail(),passwordEncoder.encode(dbUser.getPassword()),authorities,db);
-//            System.out.println("管理员信息："+user.getUser().getUsername()+"   "+passwordEncoder.encode(dbUser.getPassword())+"  "+user.getAuthorities());
-            return user;
+            //当前用户是管理员
+            if(dbAdmin!=null){
+                if(dbAdmin.getIsSadmin().equals(1)){
+                    //超级管理员权限
+                    authorities.add(new SimpleGrantedAuthority("ROLE_SUPER_ADMIN"));
+                    log.info("当前是超级管理员："+dbAdmin);
+                }
+                else{
+                    //普通管理员权限
+                    authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                    log.info("当前是普通管理员："+dbAdmin);
+                }
+                user = new User(dbAdmin.getId().toString(),dbAdmin.getPassword(),authorities);
+            }
         }
+        else{
+                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+                log.info("当前是普通用户："+dbUser);
+                user = new User(dbUser.getId().toString(),dbUser.getPassword(),authorities);
+        }
+     return user;
     }
+
 }

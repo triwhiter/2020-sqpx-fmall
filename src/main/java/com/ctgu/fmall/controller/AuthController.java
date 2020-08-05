@@ -1,9 +1,12 @@
 package com.ctgu.fmall.controller;
 
+import com.alibaba.fastjson.support.odps.udf.CodecCheck;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ctgu.fmall.common.eums.ResultEnum;
 import com.ctgu.fmall.dto.AuthDTO;
+import com.ctgu.fmall.entity.Admin;
 import com.ctgu.fmall.entity.User;
+import com.ctgu.fmall.service.AdminService;
 import com.ctgu.fmall.service.SmsService;
 import com.ctgu.fmall.service.UserService;
 import com.ctgu.fmall.utils.ResultUtil;
@@ -35,6 +38,9 @@ public class AuthController {
     SmsService smsService;
 
     @Autowired
+    AdminService adminService;
+
+    @Autowired
     StringRedisTemplate stringRedisTemplate;
 
     @Autowired
@@ -46,11 +52,26 @@ public class AuthController {
     @PostMapping("/login")
     public Result login(@RequestBody @Valid AuthDTO authDTO){
         log.info("登录信息："+authDTO);
-        QueryWrapper<User> wrapper = new QueryWrapper();
-        wrapper.eq("nick_name",authDTO.getUsername())
-        .eq("password",authDTO.getPassword());
-        User user=userService.getOne(wrapper);
-        if(user==null || !passwordEncoder.matches(authDTO.getPassword(),user.getPassword())){
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper();
+        userQueryWrapper.eq("phone_number",authDTO.getUsername());
+
+        User user=userService.getOne(userQueryWrapper);
+
+        QueryWrapper<Admin> adminQueryWrapper = new QueryWrapper<>();
+        adminQueryWrapper.eq("phone_number",authDTO.getUsername());
+
+        Admin admin=adminService.getOne(adminQueryWrapper);
+
+        if(user==null ){
+            if(admin==null){
+                return ResultUtil.error(ResultEnum.LOGIN_FAILED);
+            }
+            if(!passwordEncoder.matches(authDTO.getPassword(),admin.getPassword())){
+                return ResultUtil.error(ResultEnum.LOGIN_FAILED);
+            }
+            return ResultUtil.success("登录成功",admin);
+        }
+        if(!passwordEncoder.matches(authDTO.getPassword(),user.getPassword())){
             return ResultUtil.error(ResultEnum.LOGIN_FAILED);
         }
         return ResultUtil.success("登录成功",user);

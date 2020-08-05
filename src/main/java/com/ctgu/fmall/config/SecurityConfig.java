@@ -1,3 +1,4 @@
+/*
 package com.ctgu.fmall.config;
 
 import com.ctgu.fmall.common.security.*;
@@ -55,7 +56,7 @@ public class SecurityConfig {
 
 
         @Autowired
-        MyUserAuthenticationSuccessHandler myUserAuthenticationSuccessHandler;
+        MyAuthenticationSuccessHandler myUserAuthenticationSuccessHandler;
 
 
         @Autowired
@@ -67,10 +68,12 @@ public class SecurityConfig {
         @Autowired
         MyAccessDeniedHandler myAccessDeniedHandler;
 
+*/
 /*        @Bean
         public PasswordEncoder passwordEncoder() {
             return new BCryptPasswordEncoder();
-        }*/
+        }*//*
+
 
 
         @Autowired
@@ -102,14 +105,18 @@ public class SecurityConfig {
         MyUsernamePasswordAuthenticationFilter myAuthenticationFilter() throws Exception {
             MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter();
             filter.setAuthenticationManager(authenticationManagerBean());
-            /**
+            */
+/**
              * 认证成功的处理逻辑
-             */
+             *//*
+
             filter.setAuthenticationSuccessHandler(myUserAuthenticationSuccessHandler);
 
-            /**
+            */
+/**
              * 认证失败的处理逻辑
-             */
+             *//*
+
             filter.setAuthenticationFailureHandler(myAuthenticationFailureHandler);
 
             return filter;
@@ -135,10 +142,12 @@ public class SecurityConfig {
                     .anyRequest().permitAll();
 //                .authenticated();
             //开启跨域
+*/
 /*        http.cors();
 
         // 开启自动配置的登录功能，如果没有权限，就会跳到登录页面！
-        http.csrf().disable();*/
+        http.csrf().disable();*//*
+
             http.authorizeRequests()
                     .anyRequest()
                     .authenticated()//所有请求都需要登录认证才能访问
@@ -147,8 +156,10 @@ public class SecurityConfig {
                     .loginProcessingUrl("/api/login")
                     .loginPage("/login")
                     .permitAll()
-                    /*  .and()
-                      .httpBasic()//开启httpbasic认证*/
+                    */
+/*  .and()
+                      .httpBasic()//开启httpbasic认证*//*
+
                     .and()
                     .cors()
                     .configurationSource(corsConfigurationSource())
@@ -168,28 +179,38 @@ public class SecurityConfig {
                     .accessDeniedHandler(myAccessDeniedHandler)//未登录的返回Json数据
                     .authenticationEntryPoint(myAuthenticationEntryPoint);
 
+*/
 /*        http.authorizeRequests().antMatchers("/api/user/").denyAll();
-        http.antMatcher("/api/swagger-ui.html/").anonymous();*/
-       /*
+        http.antMatcher("/api/swagger-ui.html/").anonymous();*//*
+
+       */
+/*
         //拦截器
-        log.warn("是否有权限：" + http.authorizeRequests().anyRequest().hasAuthority("ADMIN"));*/
+        log.warn("是否有权限：" + http.authorizeRequests().anyRequest().hasAuthority("ADMIN"));*//*
+
             // 开启记住我功能
             http.rememberMe();
 
         }
 
-        /**
+        */
+/**
          * 自定义授权
          *
          * @param auth
          * @throws Exception
-         */
+         *//*
+
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            /*使用自定义的UserDetailesService*/
+            */
+/*使用自定义的UserDetailesService*//*
+
             auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 
-            /*使用自定义的authenticationProvider认证逻辑*/
+            */
+/*使用自定义的authenticationProvider认证逻辑*//*
+
 //        auth.authenticationProvider(myAuthenticationProvider);;
         }
 
@@ -208,7 +229,7 @@ public class SecurityConfig {
         MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
         @Autowired
-        MyUserAuthenticationSuccessHandler myUserAuthenticationSuccessHandler;
+        MyAuthenticationSuccessHandler myUserAuthenticationSuccessHandler;
 
         @Autowired
         MyAuthenticationFailureHandler myAuthenticationFailureHandler;
@@ -276,10 +297,12 @@ public class SecurityConfig {
                     .anyRequest().permitAll();
 //                .authenticated();
             //开启跨域
+*/
 /*        http.cors();
 
         // 开启自动配置的登录功能，如果没有权限，就会跳到登录页面！
-        http.csrf().disable();*/
+        http.csrf().disable();*//*
+
             http.authorizeRequests()
                     .anyRequest()
                     .authenticated()//所有请求都需要登录认证才能访问
@@ -288,8 +311,10 @@ public class SecurityConfig {
                     .loginProcessingUrl("/api/admin/login")
                     .loginPage("/login")
                     .permitAll()
-                    /*  .and()
-                      .httpBasic()//开启httpbasic认证*/
+                    */
+/*  .and()
+                      .httpBasic()//开启httpbasic认证*//*
+
                     .and()
                     .cors()
                     .configurationSource(corsConfigurationSource())
@@ -309,27 +334,37 @@ public class SecurityConfig {
                     .accessDeniedHandler(myAccessDeniedHandler)//未登录的返回Json数据
                     .authenticationEntryPoint(myAuthenticationEntryPoint);
 
+*/
 /*        http.authorizeRequests().antMatchers("/api/user/").denyAll();
-        http.antMatcher("/api/swagger-ui.html/").anonymous();*/
-       /*
+        http.antMatcher("/api/swagger-ui.html/").anonymous();*//*
+
+       */
+/*
         //拦截器
-        log.warn("是否有权限：" + http.authorizeRequests().anyRequest().hasAuthority("ADMIN"));*/
+        log.warn("是否有权限：" + http.authorizeRequests().anyRequest().hasAuthority("ADMIN"));*//*
+
             // 开启记住我功能
             http.rememberMe();
 
         }
 
-        /**
+        */
+/**
          * 自定义授权
          *
          * @param auth
          * @throws Exception
-         */
+         *//*
+
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            /*使用自定义的UserDetailesService*/
+            */
+/*使用自定义的UserDetailesService*//*
+
             auth.userDetailsService(adminDetailsService).passwordEncoder(passwordEncoder);
-            /*使用自定义的authenticationProvider认证逻辑*/
+            */
+/*使用自定义的authenticationProvider认证逻辑*//*
+
 //        auth.authenticationProvider(myAuthenticationProvider);;
         }
     }
@@ -343,12 +378,14 @@ public class SecurityConfig {
             http.authorizeRequests()
                     .anyRequest().permitAll();
         }
-        /**
+        */
+/**
          * 忽略拦截url或静态资源文件夹 - web.ignoring(): 会直接过滤该url - 将不会经过Spring Security过滤器链
          * http.permitAll(): 不会绕开springsecurity验证，相当于是允许该路径通过
          *
          * @param web
-         */
+         *//*
+
         @Override
         public void configure(WebSecurity web) {
             //放行swagger
@@ -365,4 +402,4 @@ public class SecurityConfig {
                     .antMatchers("/css/**","/js/**","/index.html","/img/**","/fonts/**","/favicon.ico");
         }
     }
-}
+}*/
