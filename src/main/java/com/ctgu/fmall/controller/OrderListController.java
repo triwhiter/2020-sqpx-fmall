@@ -3,12 +3,10 @@ package com.ctgu.fmall.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ctgu.fmall.dto.OrderDTO;
-import com.ctgu.fmall.entity.OrderDetail;
-import com.ctgu.fmall.entity.OrderList;
-import com.ctgu.fmall.entity.ShopCart;
-import com.ctgu.fmall.entity.User;
+import com.ctgu.fmall.entity.*;
 import com.ctgu.fmall.service.OrderDetailService;
 import com.ctgu.fmall.service.OrderListService;
+import com.ctgu.fmall.service.ProductService;
 import com.ctgu.fmall.service.ShopCartService;
 import com.ctgu.fmall.utils.CommonUtil;
 import com.ctgu.fmall.utils.ResultUtil;
@@ -40,6 +38,9 @@ public class OrderListController {
 
     @Autowired
     OrderDetailService orderDetailService;
+
+    @Autowired
+    ProductService productService;
 
     @Autowired
     ShopCartService shopCartService;
@@ -100,6 +101,9 @@ public class OrderListController {
             QueryWrapper<ShopCart> wrapper = new QueryWrapper<>();
             wrapper.eq("pid",orderDTO.getPids().get(i));
             wrapper.eq("uid",user.getId());
+            Product product=productService.getById(orderDTO.getPids().get(i));
+            product.setStock(product.getStock()-orderDTO.getNums().get(i));
+            productService.updateById(product);
             shopCartService.remove(wrapper);
         }
            return ResultUtil.success("订单已保存，请尽快付款");
