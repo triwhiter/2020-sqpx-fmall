@@ -69,7 +69,7 @@ public class OrderListServiceImpl extends ServiceImpl<OrderListMapper, OrderList
     public Result getAllOrderInfo(int page, int size) {
         List<Map> allOrderInfo = orderListMapper.getAllOrderInfo();
         List<Map> res = new ArrayList<>();
-        for (int i = (page - 1 ) * size; i < page * size ; i++) {
+        for (int i = (page - 1 ) * size; i < page * size && i < allOrderInfo.size() ; i++) {
             Map temp = allOrderInfo.get(i);
             temp.put("page",page);
             temp.put("size",size);
