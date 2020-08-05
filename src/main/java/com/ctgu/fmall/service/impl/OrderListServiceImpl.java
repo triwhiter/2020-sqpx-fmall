@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ctgu.fmall.common.eums.ResultEnum;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ctgu.fmall.entity.OrderList;
+import com.ctgu.fmall.mapper.OrderDetailMapper;
 import com.ctgu.fmall.mapper.OrderListMapper;
 import com.ctgu.fmall.mapper.ProductMapper;
 import com.ctgu.fmall.service.OrderListService;
@@ -33,6 +34,7 @@ public class OrderListServiceImpl extends ServiceImpl<OrderListMapper, OrderList
 
     @Autowired
     private OrderListMapper orderListMapper;
+
 
     @Override
     public Result getOrderListInfoByUid(int uid) {
