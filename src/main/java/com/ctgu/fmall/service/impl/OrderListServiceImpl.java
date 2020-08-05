@@ -1,10 +1,13 @@
 package com.ctgu.fmall.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ctgu.fmall.common.eums.ResultEnum;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ctgu.fmall.entity.OrderDetail;
 import com.ctgu.fmall.entity.OrderList;
+import com.ctgu.fmall.mapper.OrderDetailMapper;
 import com.ctgu.fmall.mapper.OrderListMapper;
 import com.ctgu.fmall.mapper.ProductMapper;
 import com.ctgu.fmall.service.OrderListService;
@@ -16,6 +19,7 @@ import com.ctgu.fmall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +37,9 @@ public class OrderListServiceImpl extends ServiceImpl<OrderListMapper, OrderList
 
     @Autowired
     private OrderListMapper orderListMapper;
+
+    @Autowired
+    private OrderDetailMapper orderDetailMapper;
 
     @Override
     public Result getOrderListInfoByUid(int uid) {
@@ -83,13 +90,13 @@ public class OrderListServiceImpl extends ServiceImpl<OrderListMapper, OrderList
 
     @Override
     public Result delOrder(int id) {
+        orderDetailMapper.deleteByOid(id);
         boolean IsRemove = this.removeById(id);
         if (IsRemove != true){
             return ResultUtil.error(ResultEnum.FAIL);
         }else {
             return ResultUtil.success(ResultEnum.SUCCESS);
         }
-
     }
 
     @Override
