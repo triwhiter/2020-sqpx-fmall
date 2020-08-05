@@ -78,7 +78,7 @@ public class OrderListController {
         return orderListService.addOrder(orderList);
     }
 
-    @PutMapping("editOrder")
+    @PutMapping("/editOrder")
     @ApiOperation("修改订单")
     public Result editOrder(@RequestBody OrderList orderList){
         return orderListService.editOrder(orderList);
@@ -113,5 +113,16 @@ public class OrderListController {
         }
     }
 
+    @GetMapping("/getProductInfoById/{id}")
+    @ApiOperation("根据订单id，返回改订单的所有购买的所有商品")
+    public Result getProductInfoById(@PathVariable("id") int id){
+        return orderListService.getProductInfoById(id);
+    }
+
+    @PutMapping("/updateStatusById/{id}")
+    @ApiOperation("根据id，更新状态")
+    public Result updateStatusById(@PathVariable("id") int id){
+        return orderListService.updateStatusById(id);
+    }
 }
 

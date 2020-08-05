@@ -2,6 +2,7 @@ package com.ctgu.fmall.mapper;
 
 import com.ctgu.fmall.entity.Property;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
