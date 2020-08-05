@@ -97,19 +97,18 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();*/
         http.authorizeRequests()
                 .anyRequest()
-                .authenticated()
+                .authenticated()//所有请求都需要登录认证才能访问
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/api/login")
                 .loginPage("/login")
                 .permitAll()
-                .and()
-                .httpBasic()
+              /*  .and()
+                .httpBasic()//开启httpbasic认证*/
                 .and()
                 .cors()
                 .configurationSource(corsConfigurationSource())
                 .and().csrf().disable();
-
 
 
         //退出时返回Json数据
