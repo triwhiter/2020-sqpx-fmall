@@ -51,7 +51,7 @@ public class Product implements Serializable {
     @ApiModelProperty(value = "收藏量")
     private Integer collectNum;
 
-    @ApiModelProperty(value = "逻辑删除，0为删除，1为存在")
+    @ApiModelProperty(value = "逻辑删除，1为删除，0为存在")
     @TableLogic
     private Integer deleted;
 

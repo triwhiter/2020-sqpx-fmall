@@ -57,7 +57,7 @@ public class User implements Serializable {
     @ApiModelProperty(value = "头像,默认头像url")
     private String avatar;
 
-    @ApiModelProperty(value = "逻辑删除，0为删除，1为存在")
+    @ApiModelProperty(value = "逻辑删除，1为删除，0为存在")
     @TableLogic
     private Integer deleted;
 
