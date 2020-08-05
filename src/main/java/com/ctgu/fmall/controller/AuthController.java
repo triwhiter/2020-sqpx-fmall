@@ -1,7 +1,7 @@
 package com.ctgu.fmall.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ctgu.fmall.common.ResultEnum;
+import com.ctgu.fmall.common.eums.ResultEnum;
 import com.ctgu.fmall.dto.AuthDTO;
 import com.ctgu.fmall.entity.User;
 import com.ctgu.fmall.service.SmsService;
@@ -16,8 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**

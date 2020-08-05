@@ -1,9 +1,10 @@
+/*
 package com.ctgu.fmall.config;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.ctgu.fmall.common.MyAuthenticationEntryPoint;
-import com.ctgu.fmall.common.MyUsernamePasswordAuthenticationFilter;
-import com.ctgu.fmall.common.ResultEnum;
+import com.ctgu.fmall.common.security.MyAuthenticationEntryPoint;
+import com.ctgu.fmall.common.security.MyUsernamePasswordAuthenticationFilter;
+import com.ctgu.fmall.common.eums.ResultEnum;
 import com.ctgu.fmall.entity.User;
 import com.ctgu.fmall.service.UserService;
 import com.ctgu.fmall.service.impl.UserDetailsServiceImpl;
@@ -74,8 +75,10 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
+*/
 /*    @Autowired
-    MyAuthenticationProvider myAuthenticationProvider;*/
+    MyAuthenticationProvider myAuthenticationProvider;*//*
+
 
 
     //    认证策略
@@ -98,10 +101,12 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll();
 //                .authenticated();
         //开启跨域
+*/
 /*        http.cors();
 
         // 开启自动配置的登录功能，如果没有权限，就会跳到登录页面！
-        http.csrf().disable();*/
+        http.csrf().disable();*//*
+
         http.authorizeRequests()
                 .anyRequest()
                 .authenticated()//所有请求都需要登录认证才能访问
@@ -110,8 +115,10 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/api/login")
                 .loginPage("/login")
                 .permitAll()
-              /*  .and()
-                .httpBasic()//开启httpbasic认证*/
+              */
+/*  .and()
+                .httpBasic()//开启httpbasic认证*//*
+
                 .and()
                 .cors()
                 .configurationSource(corsConfigurationSource())
@@ -146,11 +153,15 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 })//未登录的返回Json数据
                 .authenticationEntryPoint(myAuthenticationEntryPoint);
 
+*/
 /*        http.authorizeRequests().antMatchers("/api/user/").denyAll();
-        http.antMatcher("/api/swagger-ui.html/").anonymous();*/
-       /*
+        http.antMatcher("/api/swagger-ui.html/").anonymous();*//*
+
+       */
+/*
         //拦截器
-        log.warn("是否有权限：" + http.authorizeRequests().anyRequest().hasAuthority("ADMIN"));*/
+        log.warn("是否有权限：" + http.authorizeRequests().anyRequest().hasAuthority("ADMIN"));*//*
+
         // 开启记住我功能
         http.rememberMe();
 
@@ -162,9 +173,11 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter();
         filter.setAuthenticationManager(authenticationManagerBean());
 
-        /**
+        */
+/**
          * 认证成功的处理逻辑
-         */
+         *//*
+
         filter.setAuthenticationSuccessHandler((req, resp, authentication) -> {
             try {
                 User user = userService.getById(authentication.getName());
@@ -181,9 +194,11 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
             }
         });
 
-        /**
+        */
+/**
          * 认证失败的处理逻辑
-         */
+         *//*
+
         filter.setAuthenticationFailureHandler((req, resp, e) -> {
             Result error = ResultUtil.error(ResultEnum.LOGIN_FAILED);
             resp.setContentType("application/json;charset=utf-8");
@@ -196,27 +211,35 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-    /**
+    */
+/**
      * 自定义授权
      *
      * @param auth
      * @throws Exception
-     */
+     *//*
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        /*使用自定义的UserDetailesService*/
+        */
+/*使用自定义的UserDetailesService*//*
+
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 
-        /*使用自定义的authenticationProvider认证逻辑*/
+        */
+/*使用自定义的authenticationProvider认证逻辑*//*
+
 //        auth.authenticationProvider(myAuthenticationProvider);;
     }
 
-    /**
+    */
+/**
      * 忽略拦截url或静态资源文件夹 - web.ignoring(): 会直接过滤该url - 将不会经过Spring Security过滤器链
      * http.permitAll(): 不会绕开springsecurity验证，相当于是允许该路径通过
      *
      * @param web
-     */
+     *//*
+
     @Override
     public void configure(WebSecurity web) {
         //放行swagger
@@ -238,3 +261,4 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
+*/

@@ -1,10 +1,9 @@
 package com.ctgu.fmall.vo;
 
 
-import com.ctgu.fmall.common.ResultEnum;
+import com.ctgu.fmall.common.eums.ResultEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
