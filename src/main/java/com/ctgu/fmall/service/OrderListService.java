@@ -25,4 +25,8 @@ public interface OrderListService extends IService<OrderList> {
     Result addOrder(OrderList orderList);
 
     Result editOrder(OrderList orderList);
+
+    Result getProductInfoById(int id);
+
+    Result updateStatusById(int id);
 }

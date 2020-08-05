@@ -27,10 +27,10 @@ public class ProductVO {
     private int saleNum;
     private int collectNum;
     private String  intro;
-    private String imgUrl;
+    private List<String> imgUrl;
 
 
-   public ProductVO(Product product,String imgUrl){
+   public ProductVO(Product product,List<String> imgUrl){
         this.productId=product.getId();
         this.cid=product.getCid();
         this.imgUrl=imgUrl;

@@ -1,7 +1,7 @@
 package com.ctgu.fmall.common.exception;
 
 
-import com.ctgu.fmall.common.ResultEnum;
+import com.ctgu.fmall.common.eums.ResultEnum;
 import lombok.Data;
 import org.springframework.web.bind.annotation.ResponseBody;
 

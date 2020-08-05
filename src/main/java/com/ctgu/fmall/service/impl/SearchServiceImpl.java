@@ -188,7 +188,13 @@ public class SearchServiceImpl implements SearchService {
             imageQueryWrapper.eq("pid", product.getId());
 
             List<ProductImage> productImages = productImageService.list(imageQueryWrapper);
-            ProductVO productVO = new ProductVO(product, productImages.get(0).getImgUrl());
+            List<String>imgUrls=new ArrayList<>();
+            if(productImages.size()>0){
+                productImages.forEach(p->{
+                    imgUrls.add(p.getImgUrl());
+                });
+            }
+            ProductVO productVO = new ProductVO(product, imgUrls);
             productList.add(productVO);
         }
         HashMap hashMap = new HashMap<>();
