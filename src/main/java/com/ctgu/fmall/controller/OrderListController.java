@@ -124,5 +124,11 @@ public class OrderListController {
     public Result updateStatusById(@PathVariable("id") int id){
         return orderListService.updateStatusById(id);
     }
+
+    @GetMapping("/total")
+    @ApiOperation("获取订单总数量")
+    public Result getTotalOrderList(){
+        return ResultUtil.success(orderListService.list(null).size());
+    }
 }
 

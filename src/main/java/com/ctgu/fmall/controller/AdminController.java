@@ -6,6 +6,7 @@ import com.ctgu.fmall.common.eums.ResultEnum;
 import com.ctgu.fmall.dto.AuthAdminDTO;
 import com.ctgu.fmall.entity.Admin;
 import com.ctgu.fmall.service.AdminService;
+import com.ctgu.fmall.utils.CommonUtil;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,11 @@ public class AdminController {
             return ResultUtil.error(ResultEnum.LOGIN_FAILED);
         }
         return ResultUtil.success("登录成功",admin);
+    }
+
+    @GetMapping("/AdminInfo")
+    public Result getCurrentAdmin(){
+        return ResultUtil.success(CommonUtil.getCurrentAdmin());
     }
 
     @GetMapping("")

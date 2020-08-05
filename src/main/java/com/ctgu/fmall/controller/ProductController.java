@@ -176,5 +176,11 @@ public class ProductController {
         }
 
     }
+
+    @GetMapping("/total")
+    @ApiOperation("获取商品总数量")
+    public Result getTotalProduct(){
+        return ResultUtil.success(productService.list(null).size());
+    }
 }
 
