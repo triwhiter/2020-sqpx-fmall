@@ -19,6 +19,7 @@ import com.ctgu.fmall.vo.ProductVO;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.DeleteProvider;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -182,5 +183,12 @@ public class ProductController {
     public Result getTotalProduct(){
         return ResultUtil.success(productService.list(null).size());
     }
+
+    @DeleteMapping("/del/{id}")
+    @ApiOperation("根据商品id，删除商品，物理删除")
+    public Result delProduct(@PathVariable("id") int id){
+        return productService.delProduct(id);
+    }
+
 }
 
