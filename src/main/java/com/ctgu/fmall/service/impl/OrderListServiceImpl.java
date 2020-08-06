@@ -6,7 +6,11 @@ import com.ctgu.fmall.common.eums.ResultEnum;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ctgu.fmall.entity.OrderList;
 import com.ctgu.fmall.mapper.OrderListMapper;
+import com.ctgu.fmall.mapper.ProductMapper;
 import com.ctgu.fmall.service.OrderListService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ctgu.fmall.service.ProductService;
+import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.utils.ResultUtil;
 import com.ctgu.fmall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,10 +65,18 @@ public class OrderListServiceImpl extends ServiceImpl<OrderListMapper, OrderList
 
     @Override
     public Result getAllOrderInfo(int page, int size) {
-        IPage<OrderList> userInfoPages = this.page(new Page<>(page, size), null);
-        if (userInfoPages != null){
-            return ResultUtil.success(userInfoPages);
-        }else {
+        List<Map> allOrderInfo = orderListMapper.getAllOrderInfo();
+        List<Map> res = new ArrayList<>();
+        for (int i = (page - 1 ) * size; i < page * size && i < allOrderInfo.size() ; i++) {
+            Map temp = allOrderInfo.get(i);
+            temp.put("page",page);
+            temp.put("size",size);
+            temp.put("total",allOrderInfo.size());
+            res.add(temp);
+        }
+        if (res.size() != 0){
+            return ResultUtil.success(res);
+        }else{
             return ResultUtil.error(ResultEnum.FAIL);
         }
     }
@@ -94,6 +106,28 @@ public class OrderListServiceImpl extends ServiceImpl<OrderListMapper, OrderList
     public Result editOrder(OrderList orderList) {
         boolean IsUpdate = this.updateById(orderList);
         if (IsUpdate != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else {
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+    }
+
+    @Override
+    public Result getProductInfoById(int id) {
+        List<Map> productInfo = orderListMapper.getProductInfoById(id);
+        if (productInfo != null){
+            return ResultUtil.success(productInfo);
+        }else {
+            return ResultUtil.error(ResultEnum.FAIL);
+        }
+    }
+
+    @Override
+    public Result updateStatusById(int id) {
+        OrderList order = this.getById(id);
+        order.setStatus("已审核");
+        boolean IsUpdate = this.updateById(order);
+        if(IsUpdate != true){
             return ResultUtil.error(ResultEnum.FAIL);
         }else {
             return ResultUtil.success(ResultEnum.SUCCESS);
