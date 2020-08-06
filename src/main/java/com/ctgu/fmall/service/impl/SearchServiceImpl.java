@@ -107,7 +107,11 @@ public class SearchServiceImpl implements SearchService {
             HighlightBuilder highlightBuilder = new HighlightBuilder();
             highlightBuilder.requireFieldMatch(true); //如果该属性中有多个关键字 则都高亮
             highlightBuilder.field("name");
-            highlightBuilder.preTags("<span style='color:#dd4b39'>");
+            highlightBuilder.preTags("<span style='color:#e4393c'>");
+            highlightBuilder.postTags("</span>");
+            highlightBuilder.field("store");
+//            highlightBuilder.preTags("<span style='color:#dd4b39'>");
+            highlightBuilder.preTags("<span style='color:#e4393c'>");
             highlightBuilder.postTags("</span>");
             sourceBuilder.highlighter(highlightBuilder);
         }

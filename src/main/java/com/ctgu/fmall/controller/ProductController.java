@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ctgu.fmall.common.eums.ResultEnum;
 import com.ctgu.fmall.dto.CProductDTO;
 import com.ctgu.fmall.entity.Category;
 import com.ctgu.fmall.entity.Product;
@@ -163,6 +164,9 @@ public class ProductController {
         QueryWrapper<Product> wrapper=new QueryWrapper<>();
         wrapper.eq("id",id);
         Product product = productService.getOne(wrapper);
+        if(product==null){
+            return ResultUtil.error(ResultEnum.NOT_FOUND);
+        }
         QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
         imageQueryWrapper.eq("pid",product.getId());
         List<ProductImage> productImages= productImageService.list(imageQueryWrapper);
