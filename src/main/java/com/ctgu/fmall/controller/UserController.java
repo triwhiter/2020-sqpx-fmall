@@ -55,4 +55,10 @@ public class UserController {
     public Result addUser(@RequestBody User user){
         return userService.addUser(user);
     }
+
+    @GetMapping("/total")
+    @ApiOperation("获取用户总数量")
+    public Result getTotalUser(){
+        return ResultUtil.success(userService.list(null).size());
+    }
 }
