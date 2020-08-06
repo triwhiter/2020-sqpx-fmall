@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ctgu.fmall.common.eums.ResultEnum;
 import com.ctgu.fmall.dto.CProductDTO;
 import com.ctgu.fmall.entity.Category;
 import com.ctgu.fmall.entity.Product;
@@ -19,6 +20,7 @@ import com.ctgu.fmall.vo.ProductVO;
 import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.DeleteProvider;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -162,6 +164,9 @@ public class ProductController {
         QueryWrapper<Product> wrapper=new QueryWrapper<>();
         wrapper.eq("id",id);
         Product product = productService.getOne(wrapper);
+        if(product==null){
+            return ResultUtil.error(ResultEnum.NOT_FOUND);
+        }
         QueryWrapper<ProductImage> imageQueryWrapper = new QueryWrapper<>();
         imageQueryWrapper.eq("pid",product.getId());
         List<ProductImage> productImages= productImageService.list(imageQueryWrapper);
@@ -176,5 +181,18 @@ public class ProductController {
         }
 
     }
+
+    @GetMapping("/total")
+    @ApiOperation("获取商品总数量")
+    public Result getTotalProduct(){
+        return ResultUtil.success(productService.list(null).size());
+    }
+
+    @DeleteMapping("/del/{id}")
+    @ApiOperation("根据商品id，删除商品，物理删除")
+    public Result delProduct(@PathVariable("id") int id){
+        return productService.delProduct(id);
+    }
+
 }
 

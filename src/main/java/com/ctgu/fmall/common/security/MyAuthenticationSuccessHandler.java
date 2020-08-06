@@ -37,7 +37,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
         log.info("权限信息："+authentication);
         Result ok;
-        if(authentication.getAuthorities().equals("ROLE_USER")){
+        if(authentication.getAuthorities().toString().contains("USER")){
                 User user = userService.getById(authentication.getName());
                 ok = ResultUtil.success("登录成功", user);
                 log.info("当前登录的普通用户："+user);

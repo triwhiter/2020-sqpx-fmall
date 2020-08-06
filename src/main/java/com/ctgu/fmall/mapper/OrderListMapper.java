@@ -35,6 +35,6 @@ public interface OrderListMapper extends BaseMapper<OrderList> {
             "from order_list, user, address where order_list.uid = user.id and order_list.aid = address.id;")
     List<Map> getAllOrderInfo();
 
-    @Select("select product.* from product, order_list, order_detail where order_list.id = #{id} and order_list.id = order_detail.oid and order_detail.pid = product.id;")
+    @Select("select DISTINCT ANY_VALUE(product.`name`) as name,ANY_VALUE(FORMAT(product.original_price,2)) as original_price,ANY_VALUE(FORMAT(product.promote_price,2)) as promote_price, ANY_VALUE(product.store) as store,  ANY_VAlue(product_image.img_url) as img_url,ANY_VAlUE(order_detail.number) as number from product, order_list, order_detail, product_image where order_list.id = #{id} and order_list.id = order_detail.oid and order_detail.pid = product.id and product.id = product_image.pid group by order_detail.id;")
     List<Map> getProductInfoById(int id);
 }
