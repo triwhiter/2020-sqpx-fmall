@@ -2,6 +2,7 @@ package com.ctgu.fmall.mapper;
 
 import com.ctgu.fmall.entity.Product;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,4 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductMapper extends BaseMapper<Product> {
 
+    @Delete("delete from product where id = #{id};")
+    int delProduct(int id);
 }

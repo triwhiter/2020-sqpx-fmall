@@ -74,28 +74,19 @@ public class ProductControllerTest extends TestCase {
             log.info("索引是否初始化成功："+!bulk.hasFailures());
         }
     }
-/*
 
+
+    /**
+     * 全表给商品添加固定前缀
+     */
     @Test
-    @Transactional
     public void resizeID(){
-       List<Product> products=productService.list(null);
+       List<ProductImage> products=productImageService.list(null);
        products.forEach(p->{
-           if(p.getId()>1147483647){
-               log.info(p.toString());
-               long smallPid=p.getId();
-               QueryWrapper<ProductImage> wrapper = new QueryWrapper<>();
-               wrapper.eq("pid",p.getId());
-               List<ProductImage> productImages=productImageService.list(wrapper);
-               log.info(productImages.toString());
-               while (smallPid>1147483647){
-                   Random rand = new Random();
-                   smallPid=smallPid/ (rand.nextInt(20)+20);
-                   log.info("缩小ID"+String.valueOf(smallPid));
-               }
-           }
+               p.setImgUrl("http://img14.360buyimg.com/n1/"+p.getImgUrl());
+               productImageService.updateById(p);
        });
     }
-*/
+
 
 }

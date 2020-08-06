@@ -109,7 +109,7 @@ public class OrderListController {
            return ResultUtil.success("订单已保存，请尽快付款");
         }catch (Exception e){
             log.error(e.getMessage());
-            return ResultUtil.error("购买失败，请重试");
+            return ResultUtil.error("商品库存不足");
         }
     }
 
