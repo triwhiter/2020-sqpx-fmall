@@ -15,4 +15,8 @@ import com.ctgu.fmall.vo.Result;
 public interface ProductService extends IService<Product> {
 
     Result delProduct(int id);
+
+    Result delProductById(int id);
+
+    Result getRemoveProduct(int page, int size);
 }

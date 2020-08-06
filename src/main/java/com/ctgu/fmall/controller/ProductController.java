@@ -194,5 +194,17 @@ public class ProductController {
         return productService.delProduct(id);
     }
 
+    @DeleteMapping("/delById/{id}")
+    @ApiOperation("根据商品id，删除商品，逻辑删除")
+    public Result delProductById(@PathVariable("id") int id){
+        return productService.delProductById(id);
+    }
+
+    @GetMapping("/getRemoveProduct/{page}/{size}")
+    @ApiOperation("返回所有逻辑删除商品")
+    public Result getRemoveProduct(@PathVariable("page") int page, @PathVariable("size") int size){
+        return productService.getRemoveProduct(page,size);
+    }
+
 }
 

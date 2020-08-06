@@ -1,6 +1,8 @@
 package com.ctgu.fmall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ctgu.fmall.common.eums.ResultEnum;
 import com.ctgu.fmall.entity.*;
 import com.ctgu.fmall.mapper.*;
@@ -11,6 +13,10 @@ import com.ctgu.fmall.vo.Result;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -64,5 +70,38 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
             return ResultUtil.error(ResultEnum.FAIL);
         }
 
+    }
+
+    @Override
+    public Result delProductById(int id) {
+        boolean IsRemove = this.removeById(id);
+        if (IsRemove != true){
+            return ResultUtil.error(ResultEnum.FAIL);
+        }else{
+            return ResultUtil.success(ResultEnum.SUCCESS);
+        }
+    }
+
+    @Override
+    public Result getRemoveProduct(int page, int size) {
+        List<Map> productList = productMapper.getRemoveProduct();
+        int totalPages = productList.size() / size;
+        if (productList.size() % size != 0){
+            totalPages = totalPages + 1;
+        }
+        List<Map> res = new ArrayList<>();
+        for (int i = (page - 1 ) * size; i < page * size && i < productList.size(); i++) {
+            Map temp = productList.get(i);
+            temp.put("page",page);
+            temp.put("size",size);
+            temp.put("total",productList.size());
+            temp.put("totalPages", totalPages );
+            res.add(temp);
+        }
+        if (res.size() != 0){
+            return ResultUtil.success(res);
+        }else{
+            return ResultUtil.error(ResultEnum.FAIL);
+        }
     }
 }
