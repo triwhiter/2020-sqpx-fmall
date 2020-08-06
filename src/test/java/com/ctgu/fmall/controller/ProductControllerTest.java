@@ -79,14 +79,14 @@ public class ProductControllerTest extends TestCase {
     /**
      * 全表给商品添加固定前缀
      */
-    @Test
-    public void resizeID(){
-       List<ProductImage> products=productImageService.list(null);
-       products.forEach(p->{
-               p.setImgUrl("http://img14.360buyimg.com/n1/"+p.getImgUrl());
-               productImageService.updateById(p);
-       });
-    }
+//    @Test
+//    public void resizeID(){
+//       List<ProductImage> products=productImageService.list(null);
+//       products.forEach(p->{
+//               p.setImgUrl("http://img14.360buyimg.com/n1/"+p.getImgUrl());
+//               productImageService.updateById(p);
+//       });
+//    }
 
 
 }
